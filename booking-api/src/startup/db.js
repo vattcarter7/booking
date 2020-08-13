@@ -10,5 +10,7 @@ module.exports = function () {
       useCreateIndex: true,
       useFindAndModify: false
     })
-    .then(() => console.log(chalk.blue(`connected to database ${MONGO_URI}`)));
+    .then(() =>
+      console.log(chalk.blueBright(`connected to database url ${MONGO_URI}`))
+    );
 };

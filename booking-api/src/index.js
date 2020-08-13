@@ -9,7 +9,9 @@ require('./startup/db')();
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () =>
-  console.log(chalk.yellowBright(`up and running on port ${port}`))
+  console.log(
+    chalk.yellow('up and running on port ' + chalk.underline.redBright(port))
+  )
 );
 
 module.exports = server;
