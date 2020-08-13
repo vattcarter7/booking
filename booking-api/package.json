@@ -25,5 +25,14 @@
     "nodemailer": "^6.4.11",
     "slugify": "^1.4.5",
     "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "nodemon": "^2.0.4"
   }
 }
