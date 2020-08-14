@@ -4,6 +4,8 @@ require('express-async-errors');
 
 const app = express();
 
+// TODO: add product route
+// TODO: add user route
 //require('./startup/routes')(app);
 require('./startup/db')();
 
