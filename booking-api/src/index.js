@@ -6,6 +6,7 @@ const app = express();
 
 // TODO: add product route
 // TODO: add user route
+// TODO: add stripe payment
 //require('./startup/routes')(app);
 require('./startup/db')();
 
