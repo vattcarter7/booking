@@ -27,7 +27,7 @@
     "helmet": "^4.0.0",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "mongoose": "^5.9.28",
     "nodemailer": "^6.4.11",
     "slugify": "^1.4.5",
