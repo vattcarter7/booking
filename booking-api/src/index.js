@@ -8,7 +8,7 @@ const app = express();
 // TODO: add user route
 // TODO: add stripe payment
 //require('./startup/routes')(app);
-require('./startup/db')();
+require('./startup/db');
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () =>
