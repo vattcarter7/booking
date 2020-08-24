@@ -1,20 +1,20 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-export const hashPassword = (password) => {
+exports.hashPassword = async (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };
 
-export const comparePassword = async (password, hashPassword) => {
+exports.comparePassword = async (password, hashPassword) => {
   return await bcrypt.compare(password, hashPassword);
 };
 
-export const generateSignedJwtToken = (id) => {
+exports.generateSignedJwtToken = (id) => {
   const token = jwt.sign(
     {
       userId: id
     },
-    process.env.JWT_SECRET,
+    process.env.JWT_PRIVATE_KEY,
     { expiresIn: process.env.JWT_EXPIRE }
   );
   return token;
