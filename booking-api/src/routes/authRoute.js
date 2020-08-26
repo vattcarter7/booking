@@ -2,8 +2,8 @@ const express = require('express');
 const { check } = require('express-validator');
 const {
   register,
-  login
-  // logout,
+  login,
+  logout
   // getMe,
   // updateDetails,
   // updatePassword,
@@ -50,8 +50,9 @@ router.post(
   ],
   login
 );
+
+router.get('/logout', logout);
 // router.get('/loggedin', isLoggedIn);
-// router.get('/logout', logout);
 // router.get('/me', protect, getMe);
 // router.put('/updatedetails', protect, updateDetails);
 // router.put('/updatepassword', protect, updatePassword);
