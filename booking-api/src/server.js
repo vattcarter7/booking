@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-const colors = require('colors');
+require('colors');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 

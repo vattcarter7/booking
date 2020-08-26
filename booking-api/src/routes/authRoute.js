@@ -3,8 +3,8 @@ const { check } = require('express-validator');
 const {
   register,
   login,
-  logout
-  // getMe,
+  logout,
+  getMe
   // updateDetails,
   // updatePassword,
   // forgotPassword,
@@ -16,7 +16,7 @@ const router = express.Router();
 
 const validateRequest = require('../middleware/validateRequest');
 
-//const { protect } = require('../middlewares/auth');
+const { protect } = require('../middleware/auth');
 
 router.post(
   '/register',
@@ -52,8 +52,8 @@ router.post(
 );
 
 router.get('/logout', logout);
+router.get('/me', protect, getMe);
 // router.get('/loggedin', isLoggedIn);
-// router.get('/me', protect, getMe);
 // router.put('/updatedetails', protect, updateDetails);
 // router.put('/updatepassword', protect, updatePassword);
 // router.post('/forgotpassword', forgotPassword);

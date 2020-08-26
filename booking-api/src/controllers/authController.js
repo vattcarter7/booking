@@ -27,7 +27,7 @@ const sendTokenResponse = (user, statusCode, res) => {
   user.password_reset_token = undefined;
   user.password_reset_expires = undefined;
 
-  res.status(statusCode).cookie('auth_jwt', token, cookieOptions).json({
+  res.status(statusCode).cookie('jwt', token, cookieOptions).json({
     success: true,
     token,
     user
@@ -102,7 +102,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/auth/logout
 // @access    Private
 exports.logout = asyncHandler(async (req, res, next) => {
-  res.cookie('auth_jwt', 'loggedout', {
+  res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now() + 5 * 1000), // expires in 5 seconds
     httpOnly: true
   });
@@ -110,5 +110,22 @@ exports.logout = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     user: {}
+  });
+});
+
+// @desc      GET my profile
+// @route     GET /api/v1/auth/me
+// @access    Private
+exports.getMe = asyncHandler(async (req, res, next) => {
+  const text = 'SELECT * FROM users WHERE id = $1';
+  const { rows } = await db.query(text, [req.user.id]);
+  if (!rows[0]) return next(new ErrorResponse('No user found', 401));
+  const user = rows[0];
+  user.password = undefined;
+  user.password_reset_token = undefined;
+  user.password_reset_expires = undefined;
+  res.status(200).json({
+    success: true,
+    user
   });
 });
