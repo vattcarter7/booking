@@ -18,3 +18,23 @@ CREATE TABLE users(
 );
 
 CREATE INDEX users_tokens_idx ON users USING gin(tokens);
+
+-- CREATE TABLE category
+CREATE TABLE category (
+  id                        SERIAL PRIMARY KEY,
+  name                      TEXT UNIQUE NOT NULL,
+  modified_date             TIMESTAMPTZ,
+  created_at                TIMESTAMPTZ DEFAULT now()
+);
+
+-- Insert category values
+INSERT INTO category (name) VALUES 
+	('vegetable'),
+	('meat'),
+	('drink'),
+	('electronic'),
+	('stationery'),
+	('tool'),
+	('bakery'),
+	('furniture'),
+	('grocery');

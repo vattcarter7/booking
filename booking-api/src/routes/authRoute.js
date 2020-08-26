@@ -9,7 +9,6 @@ const {
   // updatePassword,
   // forgotPassword,
   // resetPassword,
-  // isLoggedIn
 } = require('../controllers/authController');
 
 const router = express.Router();
@@ -52,8 +51,9 @@ router.post(
 );
 
 router.get('/logout', logout);
+
 router.get('/me', protect, getMe);
-// router.get('/loggedin', isLoggedIn);
+
 // router.put('/updatedetails', protect, updateDetails);
 // router.put('/updatepassword', protect, updatePassword);
 // router.post('/forgotpassword', forgotPassword);
