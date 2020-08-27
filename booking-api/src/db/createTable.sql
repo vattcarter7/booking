@@ -38,3 +38,23 @@ INSERT INTO category (name) VALUES
 	('bakery'),
 	('furniture'),
 	('grocery');
+
+-- CREATE TABLE product
+CREATE TABLE product (
+  id                        SERIAL PRIMARY KEY,
+  category_id               INT REFERENCES category(id) NOT NULL,
+  name                      TEXT UNIQUE NOT NULL,
+  description               TEXT,
+  price                     REAL NOT NULL,
+  shipping                  BOOLEAN DEFAULT true,
+  number_in_stock           INT NOT NULL,
+  available                 BOOLEAN DEFAULT true,
+  sold                      INT DEFAULT 0,
+  published                 BOOLEAN DEFAULT false,
+  tokens                    tsvector,
+  modified_date             TIMESTAMPTZ,
+  created_at                TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX product_tokens_idx ON product USING gin(tokens);
+CREATE INDEX product_category_id_idx ON product(category_id);
