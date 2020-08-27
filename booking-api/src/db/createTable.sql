@@ -1,7 +1,7 @@
 -- ** DATABASE SCHEMAS AND TABLES
 
--- CREATE TABLE users
-CREATE TABLE users(
+-- CREATE TABLE user
+CREATE TABLE users (
   id                        SERIAL PRIMARY KEY,
   email                     TEXT UNIQUE NOT NULL check (email ~* '^.+@.+\..+$'),
   password                  VARCHAR(128) NOT NULL,
@@ -46,6 +46,7 @@ CREATE TABLE product (
   name                      TEXT UNIQUE NOT NULL,
   description               TEXT,
   price                     REAL NOT NULL,
+  images                    TEXT[] NOT NULL,
   shipping                  BOOLEAN DEFAULT true,
   number_in_stock           INT NOT NULL,
   available                 BOOLEAN DEFAULT true,
