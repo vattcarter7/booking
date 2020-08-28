@@ -12,6 +12,6 @@ exports.getCategories = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     results: rows,
-    length: rows.length
+    size: rows.length
   });
 });
