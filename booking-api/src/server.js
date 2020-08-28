@@ -11,6 +11,7 @@ const app = express();
 
 // Route files
 const auth = require('./routes/authRoute');
+const categories = require('./routes/categoryRoute');
 const users = require('./routes/userRoute');
 const reviews = require('./routes/reviewRoute');
 
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
 
 // Mount routers
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/category', categories);
 // app.use('/api/v1/users', users);
 // app.use('/api/v1/reviews', reviews);
 
