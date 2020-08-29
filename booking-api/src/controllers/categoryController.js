@@ -64,3 +64,19 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
     results: rows[0]
   });
 });
+
+// @desc      Delete a category
+// @route     DELETE /api/v1/category/:id
+// @access    Private/Admin
+exports.deleteCategory = asyncHandler(async (req, res, next) => {
+  const deleteQuery = 'DELETE FROM category WHERE id=$1 returning *';
+  const { rows } = await db.query(deleteQuery, [req.params.id]);
+
+  if (!rows[0])
+    return next(new ErrorResponse(`Unable to delete category`, 400));
+
+  res.status(200).json({
+    success: true,
+    results: rows[0]
+  });
+});

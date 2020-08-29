@@ -5,7 +5,8 @@ const router = express.Router();
 const {
   getCategories,
   addCategory,
-  updateCategory
+  updateCategory,
+  deleteCategory
 } = require('../controllers/categoryController');
 const validateRequest = require('../middleware/validateRequest');
 
@@ -23,5 +24,7 @@ router.post(
 );
 
 router.put('/:id', updateCategory);
+
+router.delete('/:id', deleteCategory);
 
 module.exports = router;
