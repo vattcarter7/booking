@@ -4,9 +4,12 @@ const router = express.Router();
 
 const {
   getCategories,
-  addCategory
+  addCategory,
+  updateCategory
 } = require('../controllers/categoryController');
 const validateRequest = require('../middleware/validateRequest');
+
+router.get('/all', getCategories);
 
 router.post(
   '/add',
@@ -19,6 +22,6 @@ router.post(
   addCategory
 );
 
-router.get('/all', getCategories);
+router.put('/:id', updateCategory);
 
 module.exports = router;
