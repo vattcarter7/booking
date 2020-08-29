@@ -28,7 +28,6 @@ module.exports = {
           resolve(res);
         })
         .catch((err) => {
-          console.log('not connected');
           reject(err);
         });
     });
