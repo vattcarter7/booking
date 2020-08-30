@@ -23,6 +23,7 @@ router.post(
       .withMessage('Lstname must be between 2 and 50 characters long'),
     check('price').not().isEmpty().withMessage('price is required'),
     check('number_in_stock')
+      .isNumeric()
       .not()
       .isEmpty()
       .withMessage('Number in stock is required'),

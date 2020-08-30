@@ -45,23 +45,21 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
       name,
       description, 
       price, 
-      images, 
+      image, 
       shipping, 
       number_in_stock, 
       available, 
-      sold, 
       tokens
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, to_tsvector($10)) returning *`;
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, to_tsvector($9)) returning *`;
   const param = [
     req.body.category_id,
     req.body.name,
     req.body.description,
     req.body.price,
-    req.body.images,
+    req.body.image,
     req.body.shipping,
     req.body.number_in_stock,
     req.body.available,
-    req.body.sold,
     req.body.name.trim().toLowerCase() +
       ' ' +
       req.body.description.trim().toLowerCase()
