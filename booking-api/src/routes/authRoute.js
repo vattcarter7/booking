@@ -28,7 +28,7 @@ router.post(
     check('lastname')
       .trim()
       .isLength({ min: 2, max: 50 })
-      .withMessage('Lstname must be between 2 and 50 characters long'),
+      .withMessage('Lastname must be between 2 and 50 characters long'),
     check('password')
       .isLength({ min: 6 })
       .withMessage('password must be at least 6 characters long'),

@@ -34,3 +34,46 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
     results: rows[0]
   });
 });
+
+// @desc      add a product
+// @route     POST /api/v1/product
+// @access    Private
+exports.addProduct = asyncHandler(async (req, res, next) => {
+  const insertQuery = `INSERT INTO product 
+    (
+      category_id, 
+      name,
+      description, 
+      price, 
+      images, 
+      shipping, 
+      number_in_stock, 
+      available, 
+      sold, 
+      tokens
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, to_tsvector($10)) returning *`;
+  const param = [
+    req.body.category_id,
+    req.body.name,
+    req.body.description,
+    req.body.price,
+    req.body.images,
+    req.body.shipping,
+    req.body.number_in_stock,
+    req.body.available,
+    req.body.sold,
+    req.body.name.trim().toLowerCase() +
+      ' ' +
+      req.body.description.trim().toLowerCase()
+  ];
+
+  const { rows } = await db.query(insertQuery, param);
+  if (!rows[0]) {
+    return next(new ErrorResponse('Unable to add product', 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    results: rows[0]
+  });
+});
