@@ -4,7 +4,8 @@ const { check } = require('express-validator');
 const {
   getProducts,
   getProduct,
-  addProduct
+  addProduct,
+  updateProduct
 } = require('../controllers/productController');
 
 const router = express.Router();
@@ -35,5 +36,6 @@ router.post(
 router.get('/all', getProducts);
 
 router.get('/:id', getProduct);
+router.put('/:id', updateProduct);
 
 module.exports = router;

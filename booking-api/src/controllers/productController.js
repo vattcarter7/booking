@@ -75,3 +75,54 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
     results: rows[0]
   });
 });
+
+// @desc      update a product
+// @route     PUT /api/v1/product/:id
+// @access    Private
+exports.updateProduct = asyncHandler(async (req, res, next) => {
+  const textQuery = `SELECT * FROM product WHERE id = $1`;
+  const value = [req.params.id];
+  const response = await db.query(textQuery, value);
+  if (!response.rows[0])
+    return next(new ErrorResponse('No such product to update', 404));
+
+  const updateQuery = `UPDATE product SET
+                          category_id      =$1,
+                          name             =$2, 
+                          description      =$3,
+                          price            =$4,
+                          image            =$5,
+                          shipping         =$6,
+                          number_in_stock  =$7,
+                          available        =$8,
+                          published        =$9,
+                          tokens           =to_tsvector($10),
+                          modified_date    =to_timestamp($11)
+                        WHERE id = $12 returning *
+                      `;
+  const updateValues = [
+    req.body.category_id || response.rows[0].category_id,
+    req.body.name || response.rows[0].name,
+    req.body.description || response.rows[0].description,
+    req.body.price || response.rows[0].price,
+    req.body.image || response.rows[0].image,
+    req.body.shipping || response.rows[0].shipping,
+    req.body.number_in_stock || response.rows[0].number_in_stock,
+    req.body.available || response.rows[0].available,
+    req.body.published || response.rows[0].published,
+    req.body.name + ' ' + req.body.description ||
+      response.rows[0].name + ' ' + req.body.description,
+    covertJavascriptToPosgresTimestamp(Date.now()),
+    req.params.id
+  ];
+
+  const { rows } = await db.query(updateQuery, updateValues);
+  if (!rows[0]) {
+    return next(new ErrorResponse('Unable to update product', 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    results: rows[0]
+  });
+});
