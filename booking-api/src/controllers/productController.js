@@ -7,8 +7,15 @@ const { covertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
 // @route     GET /api/v1/product/all
 // @access    Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
-  const textQuery = `SELECT * FROM product`;
-  const { rows } = await db.query(textQuery);
+  let skip = 0;
+  let order = req.query.order ? req.query.order : 'name';
+  let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+  skip = req.query.skip;
+
+  const textQuery = `SELECT * FROM product ORDER BY $1 ASC LIMIT $2 OFFSET $3`;
+  const param = [order, limit, skip];
+
+  const { rows } = await db.query(textQuery, param);
 
   if (!rows) return next(new ErrorResponse('No products found', 404));
 

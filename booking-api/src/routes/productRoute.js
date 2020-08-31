@@ -34,7 +34,7 @@ router.post(
   addProduct
 );
 
-router.get('/all', getProducts);
+router.get('/', getProducts);
 
 router.get('/:id', getProduct);
 router.put('/:id', updateProduct);
