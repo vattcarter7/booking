@@ -10,9 +10,9 @@ const { covertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
 // @access    Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
   let textQuery;
-  let order = req.query.order ? req.query.order : 'name';
-  let limit = req.query.limit ? parseInt(req.query.limit) : 100;
-  let skip = req.query.skip ? parseInt(req.query.skip) : 0;
+  const order = req.query.order ? req.query.order : 'name';
+  const limit = req.query.limit ? parseInt(req.query.limit) : 100;
+  const skip = req.query.skip ? parseInt(req.query.skip) : 0;
 
   !req.query.category
     ? (textQuery = `SELECT * FROM product ORDER BY ${order} LIMIT $1 OFFSET $2`)
