@@ -4,18 +4,24 @@ const ErrorResponse = require('../helpers/errorResponse');
 const { covertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
 
 // @desc      get all products
-// @route     GET /api/v1/product/all
+// @route     GET /api/v1/product/  ** query products without category
+// @route     GET /api/v1/product?limit=100&skip=0&order=id ** query all products without category with pagination
+// @route     GET /api/v1/product?category='vegetable'&limit=100&skip=0&order=id ** query products with a category with pagination
 // @access    Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
-  let skip = 0;
+  let textQuery;
   let order = req.query.order ? req.query.order : 'name';
   let limit = req.query.limit ? parseInt(req.query.limit) : 100;
-  skip = req.query.skip;
+  let skip = req.query.skip ? parseInt(req.query.skip) : 0;
 
-  const textQuery = `SELECT * FROM product ORDER BY $1 ASC LIMIT $2 OFFSET $3`;
-  const param = [order, limit, skip];
+  !req.query.category
+    ? (textQuery = `SELECT * FROM product ORDER BY ${order} LIMIT $1 OFFSET $2`)
+    : (textQuery = `SELECT * from product 
+                    WHERE category_id = (SELECT id from category WHERE name = ${req.query.category})
+                    ORDER BY ${order} LIMIT $1 OFFSET $2`);
+  const values = [limit, skip];
 
-  const { rows } = await db.query(textQuery, param);
+  const { rows } = await db.query(textQuery, values);
 
   if (!rows) return next(new ErrorResponse('No products found', 404));
 
