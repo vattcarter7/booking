@@ -118,3 +118,16 @@ INSERT INTO product
 (9, 'sugar - 100g', 'get your sweet taste in your kitchen', 0.6, 'https://images.unsplash.com/photo-1562245376-3f9dae9f0e73?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80', true, 200, true, NULL, NULL, '2020-08-28 18:19:46.865+07'),
 (9, 'chili - 100g', 'get your sweet taste in your kitchen', 1.2, 'https://images.unsplash.com/photo-1583119022894-919a68a3d0e3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80', true, 80, true, NULL, NULL, '2020-08-28 18:19:47.865+07'),
 (9, 'mustard', 'get your mustard in your kitchen', 4, 'https://images.unsplash.com/photo-1528750717929-32abb73d3bd9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80', true, 10, true, NULL, NULL, '2020-08-28 18:19:48.865+07');
+
+-- CREATE TABLE cart_item
+CREATE TABLE cart_item (
+  id                        SERIAL PRIMARY KEY,
+  product_id                INT REFERENCES product(id) NOT NULL,
+  user_id                   INT REFERENCES users(id) NOT NULL,
+  quantity                  INT NOT NULL DEFAULT 0,
+  modified_date             TIMESTAMPTZ,
+  created_at                TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX cart_item_product_id_idx ON cart_item(product_id);
+CREATE INDEX cart_item_user_id_idx ON cart_item(user_id);

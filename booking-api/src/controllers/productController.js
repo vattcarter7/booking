@@ -5,7 +5,7 @@ const { covertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
 
 // @desc      get all products
 // @route     GET /api/v1/product/  ** query products without category
-// @route     GET /api/v1/product?limit=100&skip=0&order=id ** query all products without category with pagination
+// @route     GET /api/v1/product?limit=100&skip=0&order=id ** query all products without category but with pagination
 // @route     GET /api/v1/product?category='vegetable'&limit=100&skip=0&order=id ** query products with a category and pagination
 // @access    Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
