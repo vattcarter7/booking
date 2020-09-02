@@ -1,0 +1,19 @@
+const express = require('express');
+const { check } = require('express-validator');
+const router = express.Router();
+
+const validateRequest = require('../middleware/validateRequest');
+const { addCart } = require('../controllers/cartController');
+const { protect } = require('../middleware/auth');
+
+router.post(
+  '/',
+  [
+    check('product_id').not().isEmpty().withMessage('product_id is required'),
+    check('user_id').not().isEmpty().withMessage('user_id is required'),
+    validateRequest
+  ],
+  addCart
+);
+
+module.exports = router;
