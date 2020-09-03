@@ -124,8 +124,7 @@ CREATE TABLE cart_item (
   id                        SERIAL PRIMARY KEY,
   product_id                INT REFERENCES product(id) NOT NULL,
   user_id                   INT REFERENCES users(id) NOT NULL,
-  quantity                  INT NOT NULL DEFAULT 1,
-  modified_date             TIMESTAMPTZ,
+  quantity                  INT NOT NULL DEFAULT 1 check (quantity >= 0) ,
   created_at                TIMESTAMPTZ DEFAULT now()
 );
 

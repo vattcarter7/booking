@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const router = express.Router();
 
 const validateRequest = require('../middleware/validateRequest');
-const { addCart } = require('../controllers/cartController');
+const { addOrEditCartItem } = require('../controllers/cartController');
 const { protect } = require('../middleware/auth');
 
 router.post(
@@ -13,7 +13,7 @@ router.post(
     check('user_id').not().isEmpty().withMessage('user_id is required'),
     validateRequest
   ],
-  addCart
+  addOrEditCartItem
 );
 
 module.exports = router;
