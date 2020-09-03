@@ -1,7 +1,7 @@
 const db = require('../db');
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../helpers/errorResponse');
-const { covertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
+const { convertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
 
 // @desc      get all products
 // @route     GET /api/v1/product/  ** query products without category
@@ -125,7 +125,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
     req.body.published || response.rows[0].published,
     req.body.name + ' ' + req.body.description ||
       response.rows[0].name + ' ' + req.body.description,
-    covertJavascriptToPosgresTimestamp(Date.now()),
+    convertJavascriptToPosgresTimestamp(Date.now()),
     req.params.id
   ];
 

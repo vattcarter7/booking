@@ -1,7 +1,7 @@
 const db = require('../db');
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../helpers/errorResponse');
-const { covertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
+const { convertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
 
 // @desc      get all categories
 // @route     GET /api/v1/category/all
@@ -50,7 +50,7 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
                       `;
   const updateValues = [
     req.body.name || response.rows[0].name,
-    covertJavascriptToPosgresTimestamp(Date.now()),
+    convertJavascriptToPosgresTimestamp(Date.now()),
     req.params.id
   ];
 

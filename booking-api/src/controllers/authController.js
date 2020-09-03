@@ -9,7 +9,7 @@ const {
   generateSignedJwtToken,
   comparePassword
 } = require('../helpers/authHelper');
-const { covertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
+const { convertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
 const ErrorResponse = require('../helpers/errorResponse');
 
 const sendTokenResponse = (user, statusCode, res) => {
@@ -60,7 +60,7 @@ exports.register = asyncHandler(async (req, res, next) => {
     req.body.lastname.trim().toLowerCase(),
     req.body.email.trim().toLowerCase(),
     hashedPassword,
-    covertJavascriptToPosgresTimestamp(Date.now()),
+    convertJavascriptToPosgresTimestamp(Date.now()),
     req.body.firstname.trim().toLowerCase() +
       ' ' +
       req.body.lastname.trim().toLowerCase()

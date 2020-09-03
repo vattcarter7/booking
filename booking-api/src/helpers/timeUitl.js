@@ -1,3 +1,3 @@
-exports.covertJavascriptToPosgresTimestamp = (javascriptDateNow) => {
+exports.convertJavascriptToPosgresTimestamp = (javascriptDateNow) => {
   return javascriptDateNow / 1000;
 };
