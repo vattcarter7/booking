@@ -65,7 +65,7 @@ exports.removeCartItem = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      remove all cart items for a user
-// @route     DELETE /api/v1/cart/
+// @route     DELETE /api/v1/cart
 // @access    Private
 exports.removeAllCartItems = asyncHandler(async (req, res, next) => {
   const deleteQuery = `DELETE FROM cart_item WHERE user_id = $1 returning *`;
