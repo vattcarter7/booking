@@ -33,7 +33,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
     const { rows } = await db.query(queryText, [decoded.userId]);
     if (!rows[0]) {
       return next(
-        new ErrorResponse('Not authorized to access this route', 403)
+        new ErrorResponse('Not authorized to access this route!', 403)
       );
     }
 
