@@ -2,6 +2,26 @@ const db = require('../db');
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../helpers/errorResponse');
 
+// @desc      get all cart items by a user
+// @route     GET /api/v1/cart
+// @access    Private
+exports.getCartItems = asyncHandler(async (req, res, next) => {
+  // make sure the cart item quantity is greater than 0
+  const textQuery = `SELECT * FROM cart_item WHERE user_id = $1 AND quantity > $2`;
+  const values = [req.user.id, 0];
+
+  const { rows } = await db.query(textQuery, values);
+  if (!rows) {
+    return next(new ErrorResponse('No cart items found', 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    results: rows,
+    size: rows.length
+  });
+});
+
 // @desc      add a cart item or edit a cart
 // @route     POST /api/v1/cart
 // @access    Private

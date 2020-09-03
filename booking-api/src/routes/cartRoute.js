@@ -4,10 +4,13 @@ const router = express.Router();
 
 const validateRequest = require('../middleware/validateRequest');
 const {
+  getCartItems,
   addOrEditCartItem,
   removeCartItem
 } = require('../controllers/cartController');
 const { protect } = require('../middleware/auth');
+
+router.get('/', protect, getCartItems);
 
 router.post(
   '/',
