@@ -6,7 +6,8 @@ const validateRequest = require('../middleware/validateRequest');
 const {
   getCartItems,
   addOrEditCartItem,
-  removeCartItem
+  removeCartItem,
+  removeAllCartItems
 } = require('../controllers/cartController');
 const { protect } = require('../middleware/auth');
 
@@ -23,5 +24,6 @@ router.post(
 );
 
 router.delete('/:id', protect, removeCartItem);
+router.delete('/', protect, removeAllCartItems);
 
 module.exports = router;

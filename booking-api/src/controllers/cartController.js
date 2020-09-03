@@ -27,12 +27,12 @@ exports.getCartItems = asyncHandler(async (req, res, next) => {
 // @access    Private
 exports.addOrEditCartItem = asyncHandler(async (req, res, next) => {
   const insertQuery = `INSERT INTO cart_item 
-                      (product_id, user_id, quantity) 
-                      VALUES ($1, $2, $3) 
-                      ON CONFLICT ON CONSTRAINT cart_item_unique
-                      DO 
-                      UPDATE SET quantity = $3
-                      returning *`;
+                        (product_id, user_id, quantity) 
+                        VALUES ($1, $2, $3) 
+                        ON CONFLICT ON CONSTRAINT cart_item_unique
+                        DO 
+                        UPDATE SET quantity = $3
+                        returning *`;
   const values = [req.body.product_id, req.user.id, req.body.quantity];
 
   const { rows } = await db.query(insertQuery, values);
@@ -61,5 +61,23 @@ exports.removeCartItem = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     results: rows[0]
+  });
+});
+
+// @desc      remove all cart items for a user
+// @route     DELETE /api/v1/cart/
+// @access    Private
+exports.removeAllCartItems = asyncHandler(async (req, res, next) => {
+  const deleteQuery = `DELETE FROM cart_item WHERE user_id = $1 returning *`;
+  const values = [req.user.id];
+
+  const { rows } = await db.query(deleteQuery, values);
+  if (!rows) {
+    return next(new ErrorResponse('Unable remove all cart items', 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    results: rows
   });
 });
