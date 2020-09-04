@@ -43,7 +43,7 @@ exports.purchase = asyncHandler(async (req, res, next) => {
 
     await db.query(purchaseQuery);
 
-    // 2. Delete all cart items afer purchased
+    // 2. Delete all cart items after purchased
     const deleteQuery = `DELETE FROM cart_item WHERE user_id = $1`;
     const value = [req.user.id];
     await db.query(deleteQuery, value);
