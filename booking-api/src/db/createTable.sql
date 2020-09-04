@@ -124,10 +124,28 @@ CREATE TABLE cart_item (
   id                        SERIAL PRIMARY KEY,
   product_id                INT REFERENCES product(id) NOT NULL,
   user_id                   INT REFERENCES users(id) NOT NULL,
-  quantity                  INT NOT NULL DEFAULT 1 check (quantity >= 0) ,
+  quantity                  INT NOT NULL DEFAULT 1 check (quantity >= 0),
   created_at                TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE INDEX cart_item_product_id_idx ON cart_item(product_id);
 CREATE INDEX cart_item_user_id_idx ON cart_item(user_id);
 ALTER TABLE cart_item ADD CONSTRAINT cart_item_unique UNIQUE (product_id, user_id);
+
+-- cart_item and product query
+SELECT now(), (cart_item.quantity * product.price) AS total, cart_item.id AS cart_item_id
+FROM cart_item
+JOIN product ON product.id = cart_item.product_id;
+
+
+-- CREATE TABLE purchase
+CREATE TABLE purchase (
+  id                        SERIAL PRIMARY KEY,
+  product_id                INT REFERENCES product(id) NOT NULL,
+  user_id                   INT REFERENCES users(id) NOT NULL,
+  quantity                  INT NOT NULL,
+  total                     REAL NOT NULL check (total > 0),
+  created_at                TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX purchase_product_id_idx ON purchase(product_id);
+CREATE INDEX purchase_user_id_idx ON purchase(user_id);

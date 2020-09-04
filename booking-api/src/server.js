@@ -14,7 +14,7 @@ const auth = require('./routes/authRoute');
 const categories = require('./routes/categoryRoute');
 const products = require('./routes/productRoute');
 const carts = require('./routes/cartRoute');
-const orders = require('./routes/orderRoute');
+const purchase = require('./routes/purchaseRoute');
 const users = require('./routes/userRoute');
 const reviews = require('./routes/reviewRoute');
 
@@ -45,7 +45,7 @@ app.use('/api/v1/auth', auth);
 app.use('/api/v1/category', categories);
 app.use('/api/v1/product', products);
 app.use('/api/v1/cart', carts);
-app.use('/api/v1/order', orders);
+app.use('/api/v1/purchase', purchase);
 // app.use('/api/v1/users', users);
 // app.use('/api/v1/reviews', reviews);
 
