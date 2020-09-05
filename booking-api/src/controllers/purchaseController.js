@@ -70,8 +70,8 @@ exports.purchase = asyncHandler(async (req, res, next) => {
     const charge = await stripe.charges.create({
       amount: grandTotalPrice * 100, // amount is in cents
       currency: 'usd',
-      source: 'tok_mastercard',
-      description: 'Charge (created for booking API)'
+      source: req.body.token.id || 'tok_mastercard',
+      description: req.body.description || 'Charge (created for booking API)'
     });
 
     // console.log(charge);
