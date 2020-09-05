@@ -1,4 +1,5 @@
 const format = require('pg-format');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const db = require('../db');
 const asyncHandler = require('../middleware/async');
@@ -32,6 +33,22 @@ exports.purchase = asyncHandler(async (req, res, next) => {
     purchaseValues.push(Object.values(v));
   });
 
+  console.log(purchaseValues);
+
+  let totalPriceArray = [];
+
+  purchaseValues.map((v) => {
+    // index number 3 is the price index
+    totalPriceArray.push(v[3]);
+  });
+
+  const grandTotalPrice = totalPriceArray.reduce(function (a, b) {
+    return a + b;
+  }, 0);
+
+  console.log('totalPriceArray', totalPriceArray);
+  console.log('grandTotalPrice', grandTotalPrice);
+
   // make a purchase with sql transaction
   try {
     await db.query('BEGIN');
@@ -50,6 +67,15 @@ exports.purchase = asyncHandler(async (req, res, next) => {
 
     // 3. use stripe to charge customer
     // TODO: add charge functionality with stripe here
+    const charge = await stripe.charges.create({
+      amount: grandTotalPrice * 100, // amount is in cents
+      currency: 'usd',
+      source: 'tok_mastercard',
+      description: 'Charge (created for booking API)'
+    });
+
+    // console.log(charge);
+
     await db.query('COMMIT');
     res.status(201).json({
       success: true
