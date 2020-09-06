@@ -5,8 +5,27 @@ const db = require('../db');
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../helpers/errorResponse');
 
+// @desc      get my purchase order list
+// @route     GET /api/v1/purchase
+// @access    Private
+exports.getMyPurchases = asyncHandler(async (req, res, next) => {
+  const textQuery = `SELECT * FROM purchase WHERE user_id = $1`;
+  const value = [req.user.id];
+  const { rows } = await db.query(textQuery, value);
+
+  if (!rows) {
+    return next(new ErrorResponse('No purchases found', 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    results: rows,
+    size: rows.length
+  });
+});
+
 // @desc      make a purchase order
-// @route     POST /api/v1/order
+// @route     POST /api/v1/purchase
 // @access    Private
 exports.purchase = asyncHandler(async (req, res, next) => {
   // make sure the cart item quantity is greater than 0
