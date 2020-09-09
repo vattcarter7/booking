@@ -10,10 +10,10 @@ const {
 } = require('../controllers/categoryController');
 const validateRequest = require('../middleware/validateRequest');
 
-router.get('/all', getCategories);
+router.get('/', getCategories);
 
 router.post(
-  '/add',
+  '/',
   [
     check('name')
       .isLength({ min: 2 })
