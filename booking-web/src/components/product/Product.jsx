@@ -17,7 +17,9 @@ const Product = () => {
       <h3>Products List</h3>
       <div>
         {products.results.map((prod) => (
-          <div key={prod.id}>{prod.name}</div>
+          <div key={prod.id}>
+            {prod.name} - {prod.price} usd
+          </div>
         ))}
       </div>
     </Fragment>
