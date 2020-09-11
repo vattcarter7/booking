@@ -15,11 +15,11 @@ router.get('/', protect, getCartItems);
 
 router.post(
   '/',
-  protect,
-  [
-    check('product_id').not().isEmpty().withMessage('product_id is required'),
-    validateRequest
-  ],
+  // protect,
+  // [
+  //   check('product_id').not().isEmpty().withMessage('product_id is required'),
+  //   validateRequest
+  // ],
   addOrEditCartItem
 );
 

@@ -33,7 +33,7 @@ exports.addOrEditCartItem = asyncHandler(async (req, res, next) => {
                         DO 
                         UPDATE SET quantity = $3
                         returning *`;
-  const values = [req.body.product_id, req.user.id, req.body.quantity];
+  const values = [req.body.product_id, 1, req.body.quantity];
 
   const { rows } = await db.query(insertQuery, values);
   if (!rows[0]) {
