@@ -50,9 +50,9 @@ router.post(
   login
 );
 
-router.get('/logout', logout);
+router.get('/logout', protect, logout);
 
-router.get('/me', myAuth, getMe);
+router.get('/me', getMe);
 
 // router.put('/updatedetails', protect, updateDetails);
 // router.put('/updatepassword', protect, updatePassword);

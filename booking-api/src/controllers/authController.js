@@ -1,3 +1,5 @@
+const { promisify } = require('util');
+
 const db = require('../db');
 const asyncHandler = require('../middleware/async');
 const {
@@ -113,8 +115,46 @@ exports.logout = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/auth/me
 // @access    Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-  res.status(200).json({
-    success: true,
-    user: req.user
-  });
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    // Set token from Bearer token in header
+    token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt && req.cookies.jwt !== 'loggedout') {
+    // Set token from cookie
+    token = req.cookies.jwt;
+  }
+
+  if (!token) {
+    return res.status(200).json({
+      user: null,
+      token: 'hehehe'
+    });
+  }
+
+  try {
+    // verify token
+    const decoded = await promisify(jwt.verify)(
+      token,
+      process.env.JWT_PRIVATE_KEY
+    );
+
+    console.log(decoded);
+
+    const queryText = 'SELECT * FROM users WHERE id = $1';
+    const { rows } = await db.query(queryText, [decoded.userId]);
+
+    return res.status(200).json({
+      success: true,
+      user: rows[0]
+    });
+  } catch (err) {
+    return res.status(200).json({
+      error: true,
+      user: null
+    });
+  }
 });
