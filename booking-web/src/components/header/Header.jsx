@@ -44,19 +44,16 @@ const Header = () => {
             noWrap
             className={classes.toolbarTitle}
           >
-            Booking
+            <Link to='/'>Booking</Link>
           </Typography>
 
-          <Link to='/login'>
-            <Button color='primary' variant='outlined' className={classes.link}>
-              Login
-            </Button>
-          </Link>
-          <Link to='/register'>
-            <Button color='primary' variant='outlined' className={classes.link}>
-              Register
-            </Button>
-          </Link>
+          <Button color='primary' variant='outlined' className={classes.link}>
+            <Link to='login'>Login</Link>
+          </Button>
+
+          <Button color='primary' variant='outlined' className={classes.link}>
+            <Link to='register'>Register</Link>
+          </Button>
         </Toolbar>
       </AppBar>
     </Fragment>
