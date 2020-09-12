@@ -112,5 +112,7 @@ exports.myAuth = asyncHandler(async (req, res, next) => {
       user_role: rows[0].user_role
     };
     next();
-  } catch (err) {}
+  } catch (err) {
+    return next(new ErrorResponse('Problem getting auth profile', 404));
+  }
 });
