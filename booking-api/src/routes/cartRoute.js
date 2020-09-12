@@ -15,6 +15,7 @@ router.get('/', protect, getCartItems);
 
 router.post(
   '/',
+  // TODO uncomment below text
   // protect,
   // [
   //   check('product_id').not().isEmpty().withMessage('product_id is required'),
