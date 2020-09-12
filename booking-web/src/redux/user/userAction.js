@@ -7,7 +7,8 @@ import {
   LOGOUT_USER,
   USER_LOADED,
   REGISTER_FAIL,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  AUTH_FAIL
 } from './userTypes';
 
 export const register = ({ firstname, lastname, email, password }) => async (
@@ -31,7 +32,7 @@ export const register = ({ firstname, lastname, email, password }) => async (
     console.log(err);
 
     dispatch({
-      type: REGISTER_FAIL
+      type: AUTH_FAIL
     });
   }
 };
@@ -47,6 +48,22 @@ export const login = ({ email, password }) => async (dispatch) => {
 
   try {
     const res = await axios.post(`${AUTH_URL}/login`, body, config);
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data.user
+    });
+  } catch (err) {
+    console.log(err);
+
+    dispatch({
+      type: LOGIN_FAIL
+    });
+  }
+};
+
+export const getAuth = () => async (dispatch) => {
+  try {
+    const res = await axios.get(`${AUTH_URL}/me`);
     dispatch({
       type: USER_LOADED,
       payload: res.data.user
