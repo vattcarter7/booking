@@ -113,15 +113,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/auth/me
 // @access    Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-  const text = 'SELECT * FROM users WHERE id = $1';
-  const { rows } = await db.query(text, [req.user.id]);
-  if (!rows[0]) return next(new ErrorResponse('No user found', 401));
-  const user = rows[0];
-  user.password = undefined;
-  user.password_reset_token = undefined;
-  user.password_reset_expires = undefined;
   res.status(200).json({
     success: true,
-    user
+    user: req.user
   });
 });
