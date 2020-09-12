@@ -64,12 +64,8 @@ export const login = ({ email, password }) => async (dispatch) => {
 export const getAuth = () => async (dispatch) => {
   try {
     const res = await axios.get(`${AUTH_URL}/me`);
-    console.log(res.data.user);
-    console.log(res.data.error);
-    console.log(res.data.success);
-    console.log(res.data.token);
 
-    if (res.data.user === null) {
+    if (!res.data.user) {
       dispatch({
         type: AUTH_FAIL
       });

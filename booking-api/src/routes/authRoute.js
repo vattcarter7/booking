@@ -52,7 +52,7 @@ router.post(
 
 router.get('/logout', protect, logout);
 
-router.get('/me', getMe);
+router.get('/me', protect, getMe);
 
 // router.put('/updatedetails', protect, updateDetails);
 // router.put('/updatepassword', protect, updatePassword);
