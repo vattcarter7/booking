@@ -64,15 +64,22 @@ export const login = ({ email, password }) => async (dispatch) => {
 export const getAuth = () => async (dispatch) => {
   try {
     const res = await axios.get(`${AUTH_URL}/me`);
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data.user
-    });
+
+    if (res.data.user) {
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data.user
+      });
+    } else {
+      dispatch({
+        type: AUTH_FAIL
+      });
+    }
   } catch (err) {
     console.log(err);
 
     dispatch({
-      type: LOGIN_FAIL
+      type: AUTH_FAIL
     });
   }
 };

@@ -15,7 +15,7 @@ const router = express.Router();
 
 const validateRequest = require('../middleware/validateRequest');
 
-const { protect } = require('../middleware/auth');
+const { protect, myAuth } = require('../middleware/auth');
 
 router.post(
   '/register',
@@ -52,7 +52,7 @@ router.post(
 
 router.get('/logout', logout);
 
-router.get('/me', protect, getMe);
+router.get('/me', myAuth, getMe);
 
 // router.put('/updatedetails', protect, updateDetails);
 // router.put('/updatepassword', protect, updatePassword);
