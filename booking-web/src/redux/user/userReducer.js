@@ -1,15 +1,34 @@
-import { SET_CURRENT_USER } from './userTypes';
+import {
+  REGISTER_USER,
+  LOGIN_USER,
+  LOGOUT_USER,
+  USER_LOADED,
+  REGISTER_FAIL,
+  LOGIN_FAIL
+} from './userTypes';
 
 const INITIAL_STATE = {
-  currentUser: null
+  isAuthenticated: null,
+  loading: true,
+  user: null
 };
-
 const userReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case SET_CURRENT_USER:
+  const { payload, type } = action;
+  switch (type) {
+    case USER_LOADED:
       return {
         ...state,
-        currentUser: action.payload
+        isAuthenticated: true,
+        loading: false,
+        user: payload
+      };
+    case REGISTER_FAIL:
+    case LOGIN_FAIL:
+      return {
+        ...state,
+        isAuthenticated: false,
+        loading: false,
+        user: null
       };
     default:
       return state;

@@ -4,9 +4,10 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Link,
   Button
 } from '@material-ui/core';
+
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -45,24 +46,17 @@ const Header = () => {
           >
             Booking
           </Typography>
-          <nav>
-            <Link
-              variant='button'
-              color='textPrimary'
-              href='#'
-              className={classes.link}
-            >
-              Support
-            </Link>
-          </nav>
-          <Button
-            href='#'
-            color='primary'
-            variant='outlined'
-            className={classes.link}
-          >
-            Login
-          </Button>
+
+          <Link to='/login'>
+            <Button color='primary' variant='outlined' className={classes.link}>
+              Login
+            </Button>
+          </Link>
+          <Link to='/register'>
+            <Button color='primary' variant='outlined' className={classes.link}>
+              Register
+            </Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </Fragment>
