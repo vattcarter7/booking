@@ -14,12 +14,15 @@ const Product = () => {
   }, [dispatch]);
 
   const handleAddCartItem = (id) => {
-    console.log('Clicked');
+    const existingCartItem = cartItems.find(
+      (cartItem) => cartItem.product_id === id
+    );
+
     dispatch(
       addCartItem({
         product_id: id,
         user_id: user.id,
-        quantity: 1
+        quantity: existingCartItem ? existingCartItem.quantity + 1 : 1
       })
     );
   };
@@ -32,11 +35,10 @@ const Product = () => {
       <div>
         {products.results.map((prod) => (
           <div onClick={() => handleAddCartItem(prod.id)} key={prod.id}>
-            {prod.name} - {prod.price} usd
+            {prod.id} - {prod.name} - {prod.price} usd
           </div>
         ))}
       </div>
-      <div>{JSON.stringify(cartItems)}</div>
     </Fragment>
   );
 };

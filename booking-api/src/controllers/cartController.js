@@ -7,7 +7,9 @@ const ErrorResponse = require('../helpers/errorResponse');
 // @access    Private
 exports.getCartItems = asyncHandler(async (req, res, next) => {
   // make sure the cart item quantity is greater than 0
-  const textQuery = `SELECT * FROM cart_item WHERE user_id = $1 AND quantity > $2`;
+  const textQuery = `SELECT cart_item.id, cart_item.product_id, cart_item.quantity, product.image, product.name 
+                      FROM cart_item JOIN product ON product.id = cart_item.product_id 
+                      WHERE cart_item.user_id = $1 AND cart_item.quantity > $2`;
   const values = [req.user.id, 0];
 
   const { rows } = await db.query(textQuery, values);
