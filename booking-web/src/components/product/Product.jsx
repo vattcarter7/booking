@@ -5,6 +5,7 @@ import { addCartItem } from '../../redux/cart/cartAction';
 
 const Product = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const { products, loading } = useSelector((state) => state.product);
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -16,9 +17,9 @@ const Product = () => {
     console.log('Clicked');
     dispatch(
       addCartItem({
-        product_id: 1,
-        user_id: 1,
-        quantity: 99
+        product_id: id,
+        user_id: user.id,
+        quantity: 1
       })
     );
   };
