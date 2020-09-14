@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Category from '../../components/category/Category';
 import Product from '../../components/product/Product';
-import CartItem from '../../components/cart/CartItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +28,6 @@ function HomePage() {
         </Grid>
         <Grid item xs={9} sm={9}>
           <Product />
-          <CartItem />
         </Grid>
       </Grid>
     </div>

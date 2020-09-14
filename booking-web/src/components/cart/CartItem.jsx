@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   getCartItems,
   addCartItem,
-  decrementCartItemQuantity
+  decrementCartItemQuantity,
+  removeCartItem
 } from '../../redux/cart/cartAction';
 
 const CartItem = () => {
@@ -31,7 +32,7 @@ const CartItem = () => {
     );
   };
 
-  const handledecrementCartItemQuantity = (id) => {
+  const handleDecrementCartItemQuantity = (id) => {
     const existingCartItem = cartItems.find(
       (cartItem) => cartItem.product_id === id
     );
@@ -46,17 +47,33 @@ const CartItem = () => {
     );
   };
 
+  let totalPriceArray = [];
+
+  cartItems.map((cartItem) => {
+    totalPriceArray.push(cartItem.price * cartItem.quantity);
+  });
+
+  const grandTotalPrice = totalPriceArray.reduce(function (a, b) {
+    return a + b;
+  }, 0);
+
+  const handleRemoveCartItem = (id) => {
+    dispatch(removeCartItem(id));
+  };
+
   if (loading) return <h4>...Loading</h4>;
 
   return (
     <div>
-      <h3>Cart Items {cartItems.length}</h3>
+      <h3>
+        Cart Items {cartItems.length} with total: {grandTotalPrice} usd
+      </h3>
       {cartItems.map((cartItem) => (
         <div key={cartItem.product_id}>
           <p>
             <span
               onClick={() =>
-                handledecrementCartItemQuantity(cartItem.product_id)
+                handleDecrementCartItemQuantity(cartItem.product_id)
               }
               style={{ color: 'gray', cursor: 'pointer', margin: '10px' }}
             >
@@ -68,12 +85,15 @@ const CartItem = () => {
             >
               +
             </span>{' '}
-            <span style={{ color: 'red', cursor: 'pointer', margin: '10px' }}>
+            <span
+              onClick={() => handleRemoveCartItem(cartItem.id)}
+              style={{ color: 'red', cursor: 'pointer', margin: '10px' }}
+            >
               x
             </span>{' '}
             <span style={{ color: 'green' }}>
-              ID: {cartItem.product_id} - {cartItem.name} - quantity:{' '}
-              {cartItem.quantity}
+              ID: {cartItem.product_id} - {cartItem.name} - quantity: -{' '}
+              {cartItem.quantity} - price {cartItem.quantity * cartItem.price}
             </span>
           </p>
         </div>

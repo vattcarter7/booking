@@ -48,11 +48,15 @@ const Header = () => {
           </Typography>
 
           <Button color='primary' variant='outlined' className={classes.link}>
-            <Link to='login'>Login</Link>
+            <Link to='/cart'>Cart</Link>
           </Button>
 
           <Button color='primary' variant='outlined' className={classes.link}>
-            <Link to='register'>Register</Link>
+            <Link to='/login'>Login</Link>
+          </Button>
+
+          <Button color='primary' variant='outlined' className={classes.link}>
+            <Link to='/register'>Register</Link>
           </Button>
         </Toolbar>
       </AppBar>

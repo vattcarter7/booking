@@ -63,11 +63,26 @@ export const decrementCartItemQuantity = (body) => async (dispatch) => {
     console.log(res.data);
     dispatch({
       type: DECREMENT_CART_ITEM_QUANTITY,
-      REMOVE_CART_ITEM,
       payload: {
         product_id: res.data.results.product_id,
         quantity: res.data.results.quantity
       }
+    });
+  } catch (err) {
+    dispatch({
+      type: 'CART_ERROR',
+      payload: { error: 'Unable to decrement cart item' }
+    });
+  }
+};
+
+// remove cart item
+export const removeCartItem = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`${CART_URL}/${id}`);
+    dispatch({
+      type: REMOVE_CART_ITEM,
+      payload: res.data.results.id
     });
   } catch (err) {
     dispatch({
