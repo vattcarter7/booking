@@ -67,6 +67,7 @@ exports.purchase = asyncHandler(async (req, res, next) => {
 
   console.log('totalPriceArray', totalPriceArray);
   console.log('grandTotalPrice', grandTotalPrice);
+  console.log('Fixed 2', grandTotalPrice.toFixed(2));
 
   // make a purchase with sql transaction
   try {
@@ -86,20 +87,22 @@ exports.purchase = asyncHandler(async (req, res, next) => {
 
     // 3. use stripe to charge customer
     // TODO: add charge functionality with stripe here
+
     const charge = await stripe.charges.create({
-      amount: grandTotalPrice * 100, // amount is in cents
+      amount: grandTotalPrice.toFixed(2) * 100, // amount is in cents
       currency: 'usd',
-      source: req.body.token.id || 'tok_mastercard',
+      source: 'tok_visa',
       description: req.body.description || 'Charge (created for booking API)'
     });
 
-    // console.log(charge);
+    console.log(charge);
 
     await db.query('COMMIT');
     res.status(201).json({
       success: true
     });
   } catch (error) {
+    console.log(error);
     await db.query('ROLLBACK');
     res.status(400).json({
       success: false,

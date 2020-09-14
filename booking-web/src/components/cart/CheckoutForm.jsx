@@ -12,16 +12,18 @@ const CheckoutForm = () => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      const res = await axios.post(`${PURCHASE_URL}`);
-
-      // console.log(res.data);
 
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
         card: elements.getElement(CardElement)
       });
 
-      console.log('Payment Method', paymentMethod);
+      if (error) {
+        console.log('[error]', error);
+      } else {
+        await axios.post(`${PURCHASE_URL}`);
+        console.log('[PaymentMethod]', paymentMethod);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -43,7 +45,8 @@ const CheckoutForm = () => {
               invalid: {
                 color: '#9e2146'
               }
-            }
+            },
+            hidePostalCode: true
           }}
         />
         <button type='submit' disabled={!stripe}>
