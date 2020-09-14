@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 import {
   getCartItems,
@@ -7,6 +11,11 @@ import {
   decrementCartItemQuantity,
   removeCartItem
 } from '../../redux/cart/cartAction';
+import CheckoutForm from './CheckoutForm';
+
+const stripePromise = loadStripe(
+  'pk_test_51HNuCnHhTL6aJuZWqPtBInpLw5JBKlIqtPbHfX4WAzoKGxxgKNghZ2Aa8zCmPpdI3PacnBVN2ixs7rRzjy4gVvDX00xzBOhkHT'
+);
 
 const CartItem = () => {
   const dispatch = useDispatch();
@@ -98,6 +107,10 @@ const CartItem = () => {
           </p>
         </div>
       ))}
+
+      <Elements stripe={stripePromise}>
+        <CheckoutForm />
+      </Elements>
     </div>
   );
 };
