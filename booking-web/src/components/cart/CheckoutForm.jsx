@@ -1,11 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 import { PURCHASE_URL } from '../../utils/misc';
+import { clearCartItems } from '../../redux/cart/cartAction';
 
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 const CheckoutForm = () => {
+  const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -22,6 +25,7 @@ const CheckoutForm = () => {
 
       try {
         const { data } = await axios.post(`${PURCHASE_URL}`, { id });
+        dispatch(clearCartItems());
         console.log(data);
       } catch (error) {
         console.log(error);
