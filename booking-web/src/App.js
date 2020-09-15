@@ -6,6 +6,7 @@ import { getAuth } from './redux/user/userAction';
 
 import Header from './components/header/Header';
 import HomePage from './pages/home/HomePage';
+import CongratsPage from './pages/congrats/CongratsPage';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Cart from './components/cart/Cart';
@@ -21,6 +22,7 @@ function App() {
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
+        <Route exact path='/congrats' component={CongratsPage} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/cart' component={Cart} />

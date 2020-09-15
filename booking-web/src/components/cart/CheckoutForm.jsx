@@ -8,7 +8,7 @@ import { clearCartItems } from '../../redux/cart/cartAction';
 
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ price }) => {
   const dispatch = useDispatch();
 
   const [success, setSuccess] = useState(false);
@@ -63,7 +63,7 @@ const CheckoutForm = () => {
           }}
         />
         <button type='submit' disabled={!stripe}>
-          Pay
+          Pay USD{price}
         </button>
       </form>
     </div>

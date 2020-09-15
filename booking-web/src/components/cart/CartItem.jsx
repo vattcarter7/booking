@@ -111,7 +111,7 @@ const CartItem = () => {
       ))}
 
       <Elements stripe={stripePromise}>
-        <CheckoutForm />
+        <CheckoutForm price={grandTotalPrice} />
       </Elements>
     </div>
   );
