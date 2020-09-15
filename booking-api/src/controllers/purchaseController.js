@@ -96,16 +96,10 @@ exports.purchase = asyncHandler(async (req, res, next) => {
       confirm: true
     });
     await db.query('COMMIT');
-
-    // res.status(201).json({
-    //   success: true
-    // });
-
     console.log(payment);
 
     return res.status(200).json({
       success: true
-      // confirm: 'abc123'
     });
   } catch (error) {
     console.log(error);
