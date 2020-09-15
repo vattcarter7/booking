@@ -5,7 +5,8 @@ import {
   ADD_CART_ITEM,
   GET_CART_ITEMS,
   DECREMENT_CART_ITEM_QUANTITY,
-  REMOVE_CART_ITEM
+  REMOVE_CART_ITEM,
+  CLEAR_CART_ITEMS
 } from './cartTypes';
 
 // get all cart items of the user
@@ -90,4 +91,9 @@ export const removeCartItem = (id) => async (dispatch) => {
       payload: { error: 'Unable to remove cart item' }
     });
   }
+};
+
+// clear cart items
+export const clearCartItems = () => (dispatch) => {
+  dispatch({ type: CLEAR_CART_ITEMS });
 };

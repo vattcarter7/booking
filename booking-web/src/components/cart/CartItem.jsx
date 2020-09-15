@@ -9,7 +9,8 @@ import {
   getCartItems,
   addCartItem,
   decrementCartItemQuantity,
-  removeCartItem
+  removeCartItem,
+  clearCartItems
 } from '../../redux/cart/cartAction';
 import CheckoutForm from './CheckoutForm';
 
@@ -22,6 +23,7 @@ const CartItem = () => {
   const { cartItems, loading } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   useEffect(() => {
+    dispatch(clearCartItems());
     dispatch(getCartItems());
   }, [dispatch]);
 

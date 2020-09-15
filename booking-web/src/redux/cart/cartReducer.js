@@ -2,7 +2,8 @@ import {
   ADD_CART_ITEM,
   DECREMENT_CART_ITEM_QUANTITY,
   GET_CART_ITEMS,
-  REMOVE_CART_ITEM
+  REMOVE_CART_ITEM,
+  CLEAR_CART_ITEMS
 } from './cartTypes';
 import { addItemToCart, removeItemFromCart } from './cartUtils';
 
@@ -39,6 +40,12 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         cartItems: state.cartItems.filter(
           (cartItem) => cartItem.id !== payload
         ),
+        loading: false
+      };
+    case CLEAR_CART_ITEMS:
+      return {
+        ...state,
+        cartItems: [],
         loading: false
       };
     default:
