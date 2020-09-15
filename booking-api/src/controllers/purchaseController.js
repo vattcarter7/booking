@@ -86,20 +86,26 @@ exports.purchase = asyncHandler(async (req, res, next) => {
     await db.query(deleteQuery, value);
 
     // 3. use stripe to charge customer
-    // TODO: add charge functionality with stripe here
+    const { id } = req.body;
 
-    const charge = await stripe.charges.create({
-      amount: grandTotalPrice.toFixed(2) * 100, // amount is in cents
-      currency: 'usd',
-      source: 'tok_visa',
-      description: req.body.description || 'Charge (created for booking API)'
+    const payment = await stripe.paymentIntents.create({
+      amount: grandTotalPrice.toFixed(2) * 100,
+      currency: 'USD',
+      description: 'Booking App',
+      payment_method: id,
+      confirm: true
     });
-
-    console.log(charge);
-
     await db.query('COMMIT');
-    res.status(201).json({
+
+    // res.status(201).json({
+    //   success: true
+    // });
+
+    console.log(payment);
+
+    return res.status(200).json({
       success: true
+      // confirm: 'abc123'
     });
   } catch (error) {
     console.log(error);

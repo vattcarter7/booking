@@ -10,23 +10,35 @@ const CheckoutForm = () => {
   const elements = useElements();
 
   const handleSubmit = async (event) => {
-    try {
-      event.preventDefault();
+    event.preventDefault();
 
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: elements.getElement(CardElement)
-      });
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: elements.getElement(CardElement)
+    });
 
-      if (error) {
-        console.log('[error]', error);
-      } else {
-        await axios.post(`${PURCHASE_URL}`);
-        console.log('[PaymentMethod]', paymentMethod);
+    if (!error) {
+      const { id } = paymentMethod;
+
+      try {
+        const { data } = await axios.post(`${PURCHASE_URL}`, { id });
+        console.log(data);
+        // success();
+      } catch (error) {
+        console.log(error);
       }
-    } catch (err) {
-      console.log(err);
     }
+
+    // try {
+    //   if (error) {
+    //     console.log('[error]', error);
+    //   } else {
+    //     await axios.post(`${PURCHASE_URL}`);
+    //     console.log('[PaymentMethod]', paymentMethod);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   return (
