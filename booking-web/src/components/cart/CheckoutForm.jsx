@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
@@ -9,12 +10,15 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();
+
+  const [success, setSuccess] = useState(false);
+
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setSuccess(false);
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement)
@@ -27,11 +31,16 @@ const CheckoutForm = () => {
         const { data } = await axios.post(`${PURCHASE_URL}`, { id });
         dispatch(clearCartItems());
         console.log(data);
+        setSuccess(true);
       } catch (error) {
         console.log(error);
       }
     }
   };
+
+  if (success) {
+    return <Redirect to='/congrats' />;
+  }
 
   return (
     <div style={{ width: '300px', alignItems: 'center', margin: '20px' }}>
