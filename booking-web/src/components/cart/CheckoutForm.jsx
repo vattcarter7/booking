@@ -23,22 +23,10 @@ const CheckoutForm = () => {
       try {
         const { data } = await axios.post(`${PURCHASE_URL}`, { id });
         console.log(data);
-        // success();
       } catch (error) {
         console.log(error);
       }
     }
-
-    // try {
-    //   if (error) {
-    //     console.log('[error]', error);
-    //   } else {
-    //     await axios.post(`${PURCHASE_URL}`);
-    //     console.log('[PaymentMethod]', paymentMethod);
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
 
   return (
