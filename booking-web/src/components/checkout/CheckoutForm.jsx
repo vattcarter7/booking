@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
 import { PURCHASE_URL } from '../../utils/misc';
-import { clearCartItems } from '../../redux/cart/cartAction';
+import { successBuyAction } from '../../redux/cart/cartAction';
 
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-const CheckoutForm = ({ price }) => {
+const CheckoutForm = () => {
   const dispatch = useDispatch();
-
-  const [success, setSuccess] = useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSuccess(false);
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement)
@@ -29,18 +25,13 @@ const CheckoutForm = ({ price }) => {
 
       try {
         const { data } = await axios.post(`${PURCHASE_URL}`, { id });
-        dispatch(clearCartItems());
+        dispatch(successBuyAction());
         console.log(data);
-        setSuccess(true);
       } catch (error) {
         console.log(error);
       }
     }
   };
-
-  if (success) {
-    return <Redirect to='/congrats' />;
-  }
 
   return (
     <div style={{ width: '300px', alignItems: 'center', margin: '20px' }}>
@@ -63,7 +54,7 @@ const CheckoutForm = ({ price }) => {
           }}
         />
         <button type='submit' disabled={!stripe}>
-          Pay USD{price}
+          Pay
         </button>
       </form>
     </div>

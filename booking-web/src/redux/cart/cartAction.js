@@ -6,7 +6,8 @@ import {
   GET_CART_ITEMS,
   DECREMENT_CART_ITEM_QUANTITY,
   REMOVE_CART_ITEM,
-  CLEAR_CART_ITEMS
+  CLEAR_CART_ITEMS,
+  SUCCESS_BUY
 } from './cartTypes';
 
 // get all cart items of the user
@@ -96,4 +97,9 @@ export const removeCartItem = (id) => async (dispatch) => {
 // clear cart items
 export const clearCartItems = () => (dispatch) => {
   dispatch({ type: CLEAR_CART_ITEMS });
+};
+
+// success buy
+export const successBuyAction = () => (dispatch) => {
+  dispatch({ type: SUCCESS_BUY });
 };

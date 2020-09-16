@@ -4,12 +4,13 @@ import { useDispatch } from 'react-redux';
 
 import { getAuth } from './redux/user/userAction';
 
-import Header from './components/header/Header';
 import HomePage from './pages/home/HomePage';
-import CongratsPage from './pages/congrats/CongratsPage';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
+import CheckoutPage from './pages/checkout/CheckoutPage';
+
 import Cart from './components/cart/Cart';
+import Header from './components/header/Header';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,10 +23,10 @@ function App() {
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
-        <Route exact path='/congrats' component={CongratsPage} />
-        <Route exact path='/register' component={Register} />
-        <Route exact path='/login' component={Login} />
         <Route exact path='/cart' component={Cart} />
+        <Route exact path='/checkout' component={CheckoutPage} />
+        <Route exact path='/login' component={Login} />
+        <Route exact path='/register' component={Register} />
       </Switch>
     </div>
   );
