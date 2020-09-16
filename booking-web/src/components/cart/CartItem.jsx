@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
@@ -60,11 +59,11 @@ const CartItem = () => {
 
   let totalPriceArray = [];
 
-  cartItems.map((cartItem) => {
-    totalPriceArray.push(cartItem.price * cartItem.quantity);
-  });
+  cartItems.map((cartItem) =>
+    totalPriceArray.push(cartItem.price * cartItem.quantity)
+  );
 
-  const grandTotalPrice = totalPriceArray.reduce(function (a, b) {
+  const grandTotalPrice = totalPriceArray.reduce((a, b) => {
     return a + b;
   }, 0);
 

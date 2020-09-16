@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { AUTH_URL } from '../../utils/misc';
-import { LOGOUT_USER, USER_LOADED, AUTH_FAIL } from './userTypes';
+import { USER_LOADED, AUTH_FAIL } from './userTypes';
 
 export const register = ({ firstname, lastname, email, password }) => async (
   dispatch

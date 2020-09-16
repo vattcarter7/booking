@@ -1,12 +1,4 @@
-import {
-  REGISTER_USER,
-  LOGIN_USER,
-  LOGOUT_USER,
-  USER_LOADED,
-  REGISTER_FAIL,
-  LOGIN_FAIL,
-  AUTH_FAIL
-} from './userTypes';
+import { USER_LOADED, REGISTER_FAIL, LOGIN_FAIL, AUTH_FAIL } from './userTypes';
 
 const INITIAL_STATE = {
   isAuthenticated: null,
