@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
@@ -9,12 +9,19 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();
+  const [proccessing, setProccessing] = useState(false);
+
+  useEffect(() => {
+    return setProccessing(false);
+  }, []);
 
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
+    setProccessing(true);
     event.preventDefault();
+
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement)
@@ -25,6 +32,7 @@ const CheckoutForm = () => {
 
       try {
         const { data } = await axios.post(`${PURCHASE_URL}`, { id });
+        setProccessing(false);
         dispatch(successBuyAction());
         console.log(data);
       } catch (error) {
@@ -53,8 +61,8 @@ const CheckoutForm = () => {
             hidePostalCode: true
           }}
         />
-        <button type='submit' disabled={!stripe}>
-          Pay
+        <button type='submit' disabled={!stripe || proccessing}>
+          {!proccessing ? 'Pay Now' : 'Proccessing...'}
         </button>
       </form>
     </div>
