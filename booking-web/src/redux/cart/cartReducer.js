@@ -22,21 +22,18 @@ const cartReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         cartItems: payload,
-        successBuy: false,
         loading: false
       };
     case ADD_CART_ITEM:
       return {
         ...state,
         cartItems: addItemToCart(state.cartItems, payload),
-        successBuy: false,
         loading: false
       };
     case DECREMENT_CART_ITEM_QUANTITY:
       return {
         ...state,
         cartItems: removeItemFromCart(state.cartItems, payload),
-        successBuy: false,
         loading: false
       };
     case REMOVE_CART_ITEM:
@@ -45,7 +42,6 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         cartItems: state.cartItems.filter(
           (cartItem) => cartItem.id !== payload
         ),
-        successBuy: false,
         loading: false
       };
     case CLEAR_CART_ITEMS:

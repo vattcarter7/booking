@@ -89,7 +89,7 @@ exports.purchase = asyncHandler(async (req, res, next) => {
     const { id } = req.body;
 
     const payment = await stripe.paymentIntents.create({
-      amount: grandTotalPrice.toFixed(2) * 100,
+      amount: parseInt(grandTotalPrice.toFixed(2) * 100),
       currency: 'USD',
       description: 'Booking App',
       payment_method: id,
