@@ -22,7 +22,7 @@ const CheckoutPage = () => {
 
   if (loading) return <h5>loading...</h5>;
 
-  if (successBuy && !loading) return <h1>Congrats</h1>;
+  if (successBuy) return <h1>Congrats</h1>;
 
   if (cartItems.length === 0 && !loading) return <Redirect to='/' />;
 
