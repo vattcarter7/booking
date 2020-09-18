@@ -9,17 +9,17 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();
-  const [proccessing, setProccessing] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
-    return setProccessing(false);
+    return setProcessing(false);
   }, []);
 
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
-    setProccessing(true);
+    setProcessing(true);
     event.preventDefault();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -32,7 +32,7 @@ const CheckoutForm = () => {
 
       try {
         const { data } = await axios.post(`${PURCHASE_URL}`, { id });
-        setProccessing(false);
+        setProcessing(false);
         dispatch(successBuyAction());
         console.log(data);
       } catch (error) {
@@ -61,8 +61,8 @@ const CheckoutForm = () => {
             hidePostalCode: true
           }}
         />
-        <button type='submit' disabled={!stripe || proccessing}>
-          {!proccessing ? 'Pay Now' : 'Proccessing...'}
+        <button type='submit' disabled={!stripe || processing}>
+          {!processing ? 'Pay Now' : 'Proccessing...'}
         </button>
       </form>
     </div>
