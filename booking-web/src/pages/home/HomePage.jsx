@@ -2,9 +2,7 @@ import React from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-
-const drawerWidth = 240;
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -16,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 function HomePage() {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div>
       <CssBaseline />
       <main className={classes.content}>
         <div className={classes.toolbar} />

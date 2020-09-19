@@ -1,11 +1,5 @@
 import React, { Fragment } from 'react';
-import {
-  CssBaseline,
-  AppBar,
-  Toolbar,
-  Typography,
-  Button
-} from '@material-ui/core';
+import { CssBaseline, AppBar, Toolbar, Typography } from '@material-ui/core';
 
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -65,7 +59,7 @@ const Header = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' noWrap>
-            Responsive drawer
+            Booking App
           </Typography>
         </Toolbar>
       </AppBar>
