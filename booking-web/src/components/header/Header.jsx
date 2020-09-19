@@ -7,57 +7,66 @@ import {
   Button
 } from '@material-ui/core';
 
-import { Link } from 'react-router-dom';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex'
+  },
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0
+    }
+  },
   appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth
+    }
   },
-  toolbar: {
-    flexWrap: 'wrap'
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none'
+    }
   },
-  toolbarTitle: {
-    flexGrow: 1
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth
   },
-  link: {
-    margin: theme.spacing(1, 1.5)
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
   }
 }));
 
 const Header = () => {
   const classes = useStyles();
+
   return (
     <Fragment>
       <CssBaseline />
-      <AppBar
-        position='static'
-        color='default'
-        elevation={0}
-        className={classes.appBar}
-      >
-        <Toolbar className={classes.toolbar}>
-          <Typography
-            variant='h6'
+      <AppBar position='fixed' className={classes.appBar}>
+        <Toolbar>
+          <IconButton
             color='inherit'
-            noWrap
-            className={classes.toolbarTitle}
+            aria-label='open drawer'
+            edge='start'
+            onClick={() => {}}
+            className={classes.menuButton}
           >
-            <Link to='/'>Booking</Link>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant='h6' noWrap>
+            Responsive drawer
           </Typography>
-
-          <Button color='primary' variant='outlined' className={classes.link}>
-            <Link to='/cart'>Cart</Link>
-          </Button>
-
-          <Button color='primary' variant='outlined' className={classes.link}>
-            <Link to='/login'>Login</Link>
-          </Button>
-
-          <Button color='primary' variant='outlined' className={classes.link}>
-            <Link to='/register'>Register</Link>
-          </Button>
         </Toolbar>
       </AppBar>
     </Fragment>

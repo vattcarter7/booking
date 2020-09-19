@@ -11,6 +11,7 @@ import Cart from './components/cart/Cart';
 import Header from './components/header/Header';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import MyDrawer from './components/drawer/CustomDrawer';
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function App() {
   return (
     <div>
       <Header />
+      <MyDrawer />
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Route exact path='/cart' component={Cart} />
