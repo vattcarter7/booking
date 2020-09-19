@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -11,6 +12,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { DRAW_WIDTH } from '../../utils/misc';
+import { toggleMobileDrawerHidden } from '../../redux/drawer/drawerAction';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,14 +48,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CustomDrawer = (props) => {
+  const dispatch = useDispatch();
+  const { showMobileDrawer } = useSelector((state) => state.drawer);
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
   const drawer = (
     <div>
@@ -94,8 +93,8 @@ const CustomDrawer = (props) => {
           container={container}
           variant='temporary'
           anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
+          open={showMobileDrawer}
+          onClose={() => dispatch(toggleMobileDrawerHidden())}
           classes={{
             paper: classes.drawerPaper
           }}

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
 import { CssBaseline, AppBar, Toolbar, Typography } from '@material-ui/core';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -6,6 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { DRAW_WIDTH } from '../../utils/misc';
+import { toggleMobileDrawerHidden } from '../../redux/drawer/drawerAction';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Fragment>
@@ -52,7 +55,7 @@ const Header = () => {
             color='inherit'
             aria-label='open drawer'
             edge='start'
-            onClick={() => {}}
+            onClick={() => dispatch(toggleMobileDrawerHidden())}
             className={classes.menuButton}
           >
             <MenuIcon />
