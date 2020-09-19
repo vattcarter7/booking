@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-const drawerWidth = 240;
+import { DRAW_WIDTH } from '../../utils/misc';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
+      width: DRAW_WIDTH,
       flexShrink: 0
     }
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth
+      width: `calc(100% - ${DRAW_WIDTH}px)`,
+      marginLeft: DRAW_WIDTH
     }
   },
   menuButton: {
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth
+    width: DRAW_WIDTH
   },
   content: {
     flexGrow: 1,
