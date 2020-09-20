@@ -10,7 +10,7 @@ export const getAllProducts = (order, limit, skip) => async (dispatch) => {
     );
     dispatch({
       type: GET_PRODUCTS,
-      payload: res.data
+      payload: { ...res.data, limit, skip }
     });
   } catch (error) {
     console.log('ERROR getting all products');

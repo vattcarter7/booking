@@ -41,7 +41,13 @@ function HomePage() {
       <CssBaseline />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Button variant='contained' color='primary'>
+        <Button
+          onClick={() => {
+            dispatch(getAllProducts(productOrder, limit, limit + skip));
+          }}
+          variant='contained'
+          color='primary'
+        >
           Next
         </Button>
         <div>

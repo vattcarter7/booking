@@ -16,7 +16,9 @@ const productReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         products: payload,
-        loading: false
+        loading: false,
+        limit: payload.limit,
+        skip: payload.skip
       };
     default:
       return state;
