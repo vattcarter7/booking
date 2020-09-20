@@ -10,15 +10,6 @@ import { DRAW_WIDTH } from '../../utils/misc';
 import { toggleMobileDrawerHidden } from '../../redux/drawer/drawerAction';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex'
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: DRAW_WIDTH,
-      flexShrink: 0
-    }
-  },
   appBar: {
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${DRAW_WIDTH}px)`,
@@ -30,15 +21,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: DRAW_WIDTH
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3)
   }
 }));
 

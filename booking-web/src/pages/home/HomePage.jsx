@@ -4,11 +4,19 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { DRAW_WIDTH } from '../../utils/misc';
+
 const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
-  }
+    padding: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: DRAW_WIDTH,
+      flexShrink: 0
+    }
+  },
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar
 }));
 
 function HomePage() {

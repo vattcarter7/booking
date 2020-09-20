@@ -15,9 +15,6 @@ import { DRAW_WIDTH } from '../../utils/misc';
 import { toggleMobileDrawerHidden } from '../../redux/drawer/drawerAction';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex'
-  },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: DRAW_WIDTH,
