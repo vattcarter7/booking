@@ -68,11 +68,21 @@ const CustomDrawer = (props) => {
       {categories.results.length > 0 && !loading && (
         <List>
           <ListItem button>
-            <ListItemText primary='All' />
+            <ListItemText primary='All Categories' />
           </ListItem>
           {categories.results.map((category) => (
-            <ListItem button key={category.id}>
-              <ListItemText primary={category.name} />
+            <ListItem
+              button
+              // TODO: fetch products by category
+              onClick={() => console.log('Clicked')}
+              key={category.id}
+            >
+              <ListItemText
+                primary={
+                  // Make the first letter upper case
+                  category.name.charAt(0).toUpperCase() + category.name.slice(1)
+                }
+              />
             </ListItem>
           ))}
         </List>
