@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+
+import { getAllCategories } from '../../redux/category/categoryAction';
 
 import { DRAW_WIDTH } from '../../utils/misc';
 import { toggleMobileDrawerHidden } from '../../redux/drawer/drawerAction';
@@ -46,41 +46,39 @@ const useStyles = makeStyles((theme) => ({
 
 const CustomDrawer = (props) => {
   const dispatch = useDispatch();
+  const { categories, loading } = useSelector((state) => state.category);
   const { showMobileDrawer } = useSelector((state) => state.drawer);
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
 
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
+  if (loading) return <p>Loading...</p>;
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
+      {categories.results.length > 0 && !loading && (
+        <List>
+          <ListItem button>
+            <ListItemText primary='All' />
           </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+          {categories.results.map((category) => (
+            <ListItem button key={category.id}>
+              <ListItemText primary={category.name} />
+            </ListItem>
+          ))}
+        </List>
+      )}
     </div>
   );
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <nav className={classes.drawer} aria-label='mailbox folders'>

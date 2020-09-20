@@ -6,4 +6,4 @@ export const CART_URL = '/api/v1/cart';
 export const PURCHASE_URL = '/api/v1/purchase';
 
 // CONSTANTS
-export const DRAW_WIDTH = 240;
+export const DRAW_WIDTH = 180;
