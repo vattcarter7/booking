@@ -3,6 +3,9 @@ import { GET_PRODUCTS } from './productTypes';
 const INITIAL_STATE = {
   products: [],
   loading: true,
+  order: null,
+  limit: 10,
+  skip: 0,
   error: {}
 };
 

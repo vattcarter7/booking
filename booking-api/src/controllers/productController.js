@@ -10,25 +10,33 @@ const { convertJavascriptToPosgresTimestamp } = require('../helpers/timeUitl');
 // @access    Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
   let textQuery;
+  let totalProductCountQuery;
   const order = req.query.order ? req.query.order : 'name';
   const limit = req.query.limit ? parseInt(req.query.limit) : 100;
   const skip = req.query.skip ? parseInt(req.query.skip) : 0;
 
   !req.query.category
     ? (textQuery = `SELECT * FROM product ORDER BY ${order} LIMIT $1 OFFSET $2`)
-    : (textQuery = `SELECT * from product 
-                    WHERE category_id = (SELECT id from category WHERE name = ${req.query.category})
+    : (textQuery = `SELECT * FROM product 
+                    WHERE category_id = (SELECT id FROM category WHERE name = '${req.query.category}')
                     ORDER BY ${order} LIMIT $1 OFFSET $2`);
   const values = [limit, skip];
 
-  const { rows } = await db.query(textQuery, values);
+  !req.query.category
+    ? (totalProductCountQuery = `SELECT COUNT(*) FROM product`)
+    : (totalProductCountQuery = `SELECT COUNT(*) FROM product
+                                 WHERE category_id = (SELECT id FROM category WHERE name = '${req.query.category}')`);
 
-  if (!rows) return next(new ErrorResponse('No products found', 404));
+  const { rows } = await db.query(textQuery, values);
+  const totalProductCount = await db.query(totalProductCountQuery);
+
+  if (!rows || !totalProductCount.rows[0])
+    return next(new ErrorResponse('No products found', 404));
 
   res.status(200).json({
     success: true,
     results: rows,
-    size: rows.length
+    total: totalProductCount.rows[0].count
   });
 });
 
