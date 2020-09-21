@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { AUTH_URL } from '../../utils/misc';
-import { USER_LOADED, AUTH_FAIL } from './userTypes';
+import { USER_LOADED, AUTH_FAIL, LOGOUT_USER } from './userTypes';
 
 export const register = ({ firstname, lastname, email, password }) => async (
   dispatch
@@ -61,8 +61,15 @@ export const getAuth = () => async (dispatch) => {
       payload: res.data.user
     });
   } catch (err) {
-    dispatch({
-      type: AUTH_FAIL
-    });
+    dispatch({ type: AUTH_FAIL });
+  }
+};
+
+export const logOut = () => async (dispatch) => {
+  try {
+    await axios.get(`${AUTH_URL}/logout`);
+    dispatch({ type: LOGOUT_USER });
+  } catch (error) {
+    dispatch({ type: AUTH_FAIL });
   }
 };

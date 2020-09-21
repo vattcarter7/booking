@@ -1,9 +1,26 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 import { Link, Redirect } from 'react-router-dom';
+
 import { register } from '../../redux/user/userAction';
 
+import { DRAW_WIDTH } from '../../utils/misc';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: '30px',
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: DRAW_WIDTH,
+      flexShrink: 0
+    }
+  }
+}));
+
 const Register = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.user);
 
@@ -29,7 +46,7 @@ const Register = () => {
   }
 
   return (
-    <Fragment>
+    <div className={classes.root}>
       <h1 className='large text-primary'>Sign Up</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Create Your Account
@@ -76,7 +93,7 @@ const Register = () => {
       <p className='my-1'>
         Already have an account? <Link to='/login'>Sign In</Link>
       </p>
-    </Fragment>
+    </div>
   );
 };
 

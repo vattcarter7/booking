@@ -1,9 +1,25 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+
 import { login } from '../../redux/user/userAction';
+import { DRAW_WIDTH } from '../../utils/misc';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: '30px',
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: DRAW_WIDTH,
+      flexShrink: 0
+    }
+  }
+}));
 
 const Login = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.user);
 
@@ -27,10 +43,10 @@ const Login = () => {
   }
 
   return (
-    <Fragment>
-      <h1 className='large text-primary'>Sign Up</h1>
+    <div className={classes.root}>
+      <h1 className='large text-primary'>Log In</h1>
       <p className='lead'>
-        <i className='fas fa-user'></i> Create Your Account
+        <i className='fas fa-user'></i> Sign Into Your Account
       </p>
       <form className='form' onSubmit={(e) => onSubmit(e)}>
         <div className='form-group'>
@@ -54,9 +70,9 @@ const Login = () => {
         <input type='submit' className='btn btn-primary' value='Login' />
       </form>
       <p className='my-1'>
-        Don't have an account? <Link to='/register'>Sign In</Link>
+        Don't have an account? <Link to='/register'>Register</Link>
       </p>
-    </Fragment>
+    </div>
   );
 };
 

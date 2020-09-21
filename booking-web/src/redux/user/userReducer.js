@@ -1,4 +1,10 @@
-import { USER_LOADED, REGISTER_FAIL, LOGIN_FAIL, AUTH_FAIL } from './userTypes';
+import {
+  USER_LOADED,
+  REGISTER_FAIL,
+  LOGIN_FAIL,
+  AUTH_FAIL,
+  LOGOUT_USER
+} from './userTypes';
 
 const INITIAL_STATE = {
   isAuthenticated: null,
@@ -18,6 +24,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case REGISTER_FAIL:
     case LOGIN_FAIL:
     case AUTH_FAIL:
+    case LOGOUT_USER:
       return {
         ...state,
         isAuthenticated: false,

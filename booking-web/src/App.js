@@ -14,6 +14,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import MyDrawer from './components/drawer/CustomDrawer';
 import Loading from './components/loading/Loading';
+import { APP_LOADED } from './redux/app/appReducer';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,7 +26,11 @@ function App() {
     dispatch(getAllCategories());
   }, [dispatch]);
 
-  if (categoriesLoading || authLoading) return <Loading />;
+  if (categoriesLoading || authLoading) {
+    return <Loading />;
+  } else {
+    dispatch({ type: APP_LOADED });
+  }
 
   return (
     <div>
