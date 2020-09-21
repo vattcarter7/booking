@@ -34,7 +34,7 @@ function HomePage() {
     dispatch(getAllProducts(productOrder, limit, skip));
   }, [dispatch, productOrder, limit, skip]);
 
-  if (loading) return <h3>Loading...</h3>;
+  if (loading) return null;
 
   return (
     <div>

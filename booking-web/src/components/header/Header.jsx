@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { CssBaseline, AppBar, Toolbar, Typography } from '@material-ui/core';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { initialized } = useSelector((state) => state.app);
 
   return (
     <Fragment>

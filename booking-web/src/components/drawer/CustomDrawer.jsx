@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,8 +8,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-
-import { getAllCategories } from '../../redux/category/categoryAction';
 
 import { DRAW_WIDTH } from '../../utils/misc';
 import { toggleMobileDrawerHidden } from '../../redux/drawer/drawerAction';
@@ -52,14 +50,10 @@ const CustomDrawer = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, [dispatch]);
-
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return null;
 
   const drawer = (
     <div>
