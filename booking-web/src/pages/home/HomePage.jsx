@@ -47,6 +47,7 @@ function HomePage() {
           }}
           variant='contained'
           color='primary'
+          disabled={limit + skip >= products.total}
         >
           Next
         </Button>

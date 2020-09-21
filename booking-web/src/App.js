@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { APP_LOADED } from './redux/app/appReducer';
 import { getAuth } from './redux/user/userAction';
+import { getAllCategories } from './redux/category/categoryAction';
 
 import HomePage from './pages/home/HomePage';
 import CheckoutPage from './pages/checkout/CheckoutPage';
@@ -15,9 +17,25 @@ import MyDrawer from './components/drawer/CustomDrawer';
 
 function App() {
   const dispatch = useDispatch();
+  const { initialized } = useSelector((state) => state.app);
   useEffect(() => {
     dispatch(getAuth());
+    dispatch(getAllCategories());
+    dispatch({ type: APP_LOADED });
   }, [dispatch]);
+
+  if (!initialized)
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          alignContent: 'center'
+        }}
+      >
+        Loading...
+      </div>
+    );
 
   return (
     <div>
