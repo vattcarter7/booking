@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Button, Divider } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { DRAW_WIDTH } from '../../utils/misc';
 import { getAllProducts } from '../../redux/product/productAction';
+
+import Product from '../../components/product/Product';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -24,17 +26,12 @@ const useStyles = makeStyles((theme) => ({
 function HomePage() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { products, loading, order, limit, skip } = useSelector(
+
+  const { products, order, limit, skip } = useSelector(
     (state) => state.product
   );
 
   let productOrder = order ? order : 'name';
-
-  useEffect(() => {
-    dispatch(getAllProducts(productOrder, limit, skip));
-  }, [dispatch, productOrder, limit, skip]);
-
-  if (loading) return null;
 
   return (
     <div>
@@ -51,15 +48,8 @@ function HomePage() {
         >
           Next
         </Button>
-        <div>
-          {products.results.map((prod) => (
-            <p key={prod.id}>
-              {prod.name} - {prod.price} usd
-            </p>
-          ))}
-        </div>
-        <Divider />
         <div>Total number of products: {products.total}</div>
+        <Product />
       </main>
     </div>
   );

@@ -6,7 +6,7 @@ import { PRODUCT_URL } from '../../utils/misc';
 export const getAllProducts = (order, limit, skip) => async (dispatch) => {
   try {
     const res = await axios.get(
-      `${PRODUCT_URL}/?order=${order}&limit=${limit}&skip=${skip}`
+      `${PRODUCT_URL}?order=${order}&limit=${limit}&skip=${skip}`
     );
     dispatch({
       type: GET_PRODUCTS,
