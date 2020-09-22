@@ -1,27 +1,33 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-
-import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    minWidth: 300,
-    maxWidth: 305,
-    minHeight: 380,
-    maxHeight: 505,
+    borderRadius: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    minWidth: 230,
+    maxWidth: 235,
+    minHeight: 240,
+    maxHeight: 245,
     margin: 10
   },
   cartAction: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'center',
+    backgroundColor: '#8d8f91',
+    cursor: 'pointer',
+    color: 'white'
+  },
+  cardContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   media: {
     height: 0,
@@ -32,23 +38,24 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ProductItem = ({ id, name, description, price, image }) => {
+const ProductItem = ({ id, name, price, image }) => {
   const classes = useStyles();
 
   return (
     <Card key={id} className={classes.root}>
-      <CardHeader title={name} />
       <CardMedia className={classes.media} image={image} title={name} />
-      <CardContent>
-        <Typography variant='body2' color='textSecondary' component='p'>
-          {description}
+      <CardContent className={classes.cardContent}>
+        <Typography variant='subtitle2' component='subtitle2'>
+          {name}
+        </Typography>
+        <Typography variant='subtitle1' color='textSecondary'>
+          ${price}
         </Typography>
       </CardContent>
       <CardActions className={classes.cartAction} disableSpacing>
-        <IconButton aria-label='shop'>
-          <AddShoppingCartOutlinedIcon />
-        </IconButton>
-        <span className={classes.price}>${price}</span>
+        <Typography variant='subtitle2' component='subtitle2'>
+          ADD TO CART
+        </Typography>
       </CardActions>
     </Card>
   );

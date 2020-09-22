@@ -11,8 +11,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    flexWrap: 'wrap',
-    padding: '30px 30px'
+    flexWrap: 'wrap'
   }
 }));
 
