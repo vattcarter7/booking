@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   cartAction: {
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#8d8f91',
+    backgroundColor: '#bec1c4',
     cursor: 'pointer',
     color: 'white'
   },
