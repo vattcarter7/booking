@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getAuth } from './redux/user/userAction';
 import { getAllCategories } from './redux/category/categoryAction';
+import { getCartItems } from './redux/cart/cartAction';
 
 import HomePage from './pages/home/HomePage';
 import CheckoutPage from './pages/checkout/CheckoutPage';
@@ -20,13 +21,15 @@ function App() {
   const dispatch = useDispatch();
   const { loading: categoriesLoading } = useSelector((state) => state.category);
   const { loading: authLoading } = useSelector((state) => state.user);
+  const { loading: cartLoading } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(getAuth());
     dispatch(getAllCategories());
+    dispatch(getCartItems());
   }, [dispatch]);
 
-  if (categoriesLoading || authLoading) {
+  if (categoriesLoading || authLoading || cartLoading) {
     return <Loading />;
   } else {
     dispatch({ type: APP_LOADED });

@@ -63,9 +63,7 @@ const Header = () => {
           >
             <MenuIcon />
           </IconButton>
-
           <CartIcon />
-
           {isAuthenticated ? (
             <span style={{ color: 'blue', marginRight: '20px' }}>
               <Button onClick={handleLogout} color='primary'>

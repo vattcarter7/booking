@@ -66,7 +66,7 @@ const CartItem = () => {
   if (loading) return <h4>...Loading</h4>;
 
   return (
-    <div>
+    <div style={{ marginTop: '70px' }}>
       <h3>
         Cart Items {cartItems.length} with total: {grandTotalPrice} usd
       </h3>

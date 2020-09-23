@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { ReactComponent as ShoppingIconSVG } from '../../assets/shopping-bag.svg';
@@ -22,17 +24,23 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     fontSize: 12,
     fontWeight: 'bold',
-    bottom: 9,
+    bottom: 11,
     color: 'red'
   }
 }));
 
 const CartIcon = () => {
   const classes = useStyles();
+  const { cartItems, loading } = useSelector((state) => state.cart);
+
+  if (cartItems.length === 0 || loading) return null;
+
   return (
     <div className={classes.root}>
-      <ShoppingIconSVG className={classes.icon} />
-      <span className={classes.counter}>5</span>
+      <Link to='/cart'>
+        <ShoppingIconSVG className={classes.icon} />
+      </Link>
+      <span className={classes.counter}>{cartItems.length}</span>
     </div>
   );
 };
