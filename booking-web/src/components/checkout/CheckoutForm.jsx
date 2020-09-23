@@ -45,8 +45,7 @@ const CheckoutForm = () => {
       const { id } = paymentMethod;
       try {
         setProcessing(true);
-        const res = await axios.post(`${PURCHASE_URL}`, { id });
-        console.log(res);
+        await axios.post(`${PURCHASE_URL}`, { id });
         setProcessing(false);
         dispatch(successBuyAction());
       } catch (error) {
