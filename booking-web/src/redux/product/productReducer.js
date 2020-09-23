@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   products: [],
   loading: true,
   order: null,
-  limit: 10,
+  limit: 12,
   skip: 0,
   error: {}
 };

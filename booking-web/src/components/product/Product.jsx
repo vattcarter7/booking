@@ -53,13 +53,15 @@ const Product = () => {
       <h3>Products List</h3>
       <div className={classes.root}>
         {products.results.map((prod) => (
-          <ProductItem
-            id={prod.id}
-            name={prod.name}
-            description={prod.description}
-            price={prod.price}
-            image={prod.image}
-          />
+          <div key={prod.id}>
+            <ProductItem
+              id={prod.id}
+              name={prod.name}
+              description={prod.description}
+              price={prod.price}
+              image={prod.image}
+            />
+          </div>
         ))}
       </div>
     </Fragment>

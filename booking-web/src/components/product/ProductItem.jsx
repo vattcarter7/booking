@@ -45,17 +45,11 @@ const ProductItem = ({ id, name, price, image }) => {
     <Card key={id} className={classes.root}>
       <CardMedia className={classes.media} image={image} title={name} />
       <CardContent className={classes.cardContent}>
-        <Typography variant='subtitle2' component='subtitle2'>
-          {name}
-        </Typography>
-        <Typography variant='subtitle1' color='textSecondary'>
-          ${price}
-        </Typography>
+        <Typography>{name}</Typography>
+        <Typography>${price}</Typography>
       </CardContent>
       <CardActions className={classes.cartAction} disableSpacing>
-        <Typography variant='subtitle2' component='subtitle2'>
-          ADD TO CART
-        </Typography>
+        <Typography>ADD TO CART</Typography>
       </CardActions>
     </Card>
   );

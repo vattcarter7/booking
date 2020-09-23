@@ -40,6 +40,16 @@ function HomePage() {
         <div className={classes.toolbar} />
         <Button
           onClick={() => {
+            dispatch(getAllProducts(productOrder, limit, skip - limit));
+          }}
+          variant='contained'
+          color='primary'
+          disabled={skip - limit < 0}
+        >
+          Back
+        </Button>
+        <Button
+          onClick={() => {
             dispatch(getAllProducts(productOrder, limit, limit + skip));
           }}
           variant='contained'
@@ -48,6 +58,7 @@ function HomePage() {
         >
           Next
         </Button>
+
         <div>Total number of products: {products.total}</div>
         <Product />
       </main>
