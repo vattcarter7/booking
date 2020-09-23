@@ -28,7 +28,7 @@ const CheckoutForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [processing, setProcessing] = useState(false);
-  const [checkoutError, setCheckoutError] = useState();
+  const [checkoutError, setCheckoutError] = useState('');
 
   const stripe = useStripe();
   const elements = useElements();
@@ -43,16 +43,15 @@ const CheckoutForm = () => {
 
     if (!error) {
       const { id } = paymentMethod;
-
       try {
         setProcessing(true);
-        const { data } = await axios.post(`${PURCHASE_URL}`, { id });
+        const res = await axios.post(`${PURCHASE_URL}`, { id });
+        console.log(res);
         setProcessing(false);
         dispatch(successBuyAction());
-        console.log(data);
       } catch (error) {
+        setCheckoutError(error.response.data.message);
         setProcessing(false);
-        console.log(error);
       }
     }
   };
@@ -77,8 +76,8 @@ const CheckoutForm = () => {
     iconStyle: 'solid'
   };
 
-  const handleCardDetailsChange = (ev) => {
-    ev.error ? setCheckoutError(ev.error.message) : setCheckoutError();
+  const handleCardDetailsChange = (event) => {
+    event.error ? setCheckoutError(event.error.message) : setCheckoutError();
   };
 
   return (

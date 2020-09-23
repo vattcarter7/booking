@@ -96,17 +96,16 @@ exports.purchase = asyncHandler(async (req, res, next) => {
       confirm: true
     });
     await db.query('COMMIT');
-    console.log(payment);
+    // console.log(payment);
 
     return res.status(200).json({
       success: true
     });
   } catch (error) {
-    console.log(error);
     await db.query('ROLLBACK');
-    res.status(400).json({
-      success: false,
-      errMsg: 'Unable to make a purchase' + error
+    console.log(error.message);
+    return res.status(400).json({
+      message: error.message
     });
   }
 });
