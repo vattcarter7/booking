@@ -5,11 +5,12 @@ import { CssBaseline, AppBar, Toolbar, Button } from '@material-ui/core';
 
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-
 import { makeStyles } from '@material-ui/core/styles';
+
 import { DRAW_WIDTH } from '../../utils/misc';
 import { toggleMobileDrawerHidden } from '../../redux/drawer/drawerAction';
 import { logOut } from '../../redux/user/userAction';
+import CartIcon from '../../components/shopping-icon/CartIcon';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -62,6 +63,9 @@ const Header = () => {
           >
             <MenuIcon />
           </IconButton>
+
+          <CartIcon />
+
           {isAuthenticated ? (
             <span style={{ color: 'blue', marginRight: '20px' }}>
               <Button onClick={handleLogout} color='primary'>

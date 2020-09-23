@@ -47,7 +47,7 @@ function HomePage() {
           disabled={skip - limit < 0}
         >
           Back
-        </Button>
+        </Button>{' '}
         <Button
           onClick={() => {
             dispatch(getAllProducts(productOrder, limit, limit + skip));
@@ -58,7 +58,6 @@ function HomePage() {
         >
           Next
         </Button>
-
         <div>Total number of products: {products.total}</div>
         <Product />
       </main>
