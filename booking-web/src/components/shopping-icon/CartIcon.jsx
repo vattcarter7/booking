@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     fontSize: 12,
     fontWeight: 'bold',
-    bottom: 11,
+    bottom: 9,
     color: 'red'
   }
 }));
@@ -36,12 +36,12 @@ const CartIcon = () => {
   if (cartItems.length === 0 || loading) return null;
 
   return (
-    <div className={classes.root}>
-      <Link to='/cart'>
+    <Link to='/cart'>
+      <div className={classes.root}>
         <ShoppingIconSVG className={classes.icon} />
-      </Link>
-      <span className={classes.counter}>{cartItems.length}</span>
-    </div>
+        <span className={classes.counter}>{cartItems.length}</span>
+      </div>
+    </Link>
   );
 };
 

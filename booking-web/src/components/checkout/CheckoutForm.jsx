@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
@@ -11,15 +11,10 @@ const CheckoutForm = () => {
   const dispatch = useDispatch();
   const [processing, setProcessing] = useState(false);
 
-  useEffect(() => {
-    return setProcessing(false);
-  }, []);
-
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
-    setProcessing(true);
     event.preventDefault();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -31,18 +26,20 @@ const CheckoutForm = () => {
       const { id } = paymentMethod;
 
       try {
+        setProcessing(true);
         const { data } = await axios.post(`${PURCHASE_URL}`, { id });
         setProcessing(false);
         dispatch(successBuyAction());
         console.log(data);
       } catch (error) {
+        setProcessing(false);
         console.log(error);
       }
     }
   };
 
   return (
-    <div style={{ width: '300px', alignItems: 'center', margin: '20px' }}>
+    <div style={{ width: '300px', alignItems: 'center', margin: '50px' }}>
       <form onSubmit={handleSubmit}>
         <CardElement
           options={{

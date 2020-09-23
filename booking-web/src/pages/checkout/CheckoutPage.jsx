@@ -22,7 +22,21 @@ const CheckoutPage = () => {
 
   if (loading) return <h5>loading...</h5>;
 
-  if (successBuy) return <h1>Congrats</h1>;
+  if (successBuy)
+    return (
+      <h1
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center',
+          margin: '60px',
+          padding: '30px'
+        }}
+      >
+        Congrats
+      </h1>
+    );
 
   if (cartItems.length === 0 && !loading) return <Redirect to='/' />;
 
