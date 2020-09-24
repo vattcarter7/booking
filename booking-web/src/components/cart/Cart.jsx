@@ -13,7 +13,9 @@ const Cart = () => {
     >
       <CartItem />
       {cartItems.length > 0 && !loading ? (
-        <Link to='/checkout'>Procceed checkout</Link>
+        <Link to='/checkout'>
+          <div style={{ marginTop: 50 }}>Procceed checkout</div>
+        </Link>
       ) : (
         <Link to='/'>Go to home page for more shopping</Link>
       )}

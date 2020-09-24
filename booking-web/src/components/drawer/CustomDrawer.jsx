@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -62,7 +63,9 @@ const CustomDrawer = (props) => {
       {categories.results.length > 0 && !loading && (
         <List>
           <ListItem button>
-            <ListItemText primary='All Categories' />
+            <Link to='/'>
+              <ListItemText primary='All Categories' />
+            </Link>
           </ListItem>
           {categories.results.map((category) => (
             <ListItem
