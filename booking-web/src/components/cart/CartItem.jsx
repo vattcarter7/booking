@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
+import { Button } from '@material-ui/core';
 
 import { DRAW_WIDTH } from '../../utils/misc';
 
@@ -19,6 +21,7 @@ import {
   removeCartItem,
   clearCartItems
 } from '../../redux/cart/cartAction';
+import { Divider } from '@material-ui/core';
 
 const TAX_RATE = 0.0;
 
@@ -35,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     flexGrow: 0,
     [theme.breakpoints.up('sm')]: {
-      marginLeft: DRAW_WIDTH
+      marginLeft: DRAW_WIDTH,
+      width: '80%'
     },
     [theme.breakpoints.down('sm')]: {
       width: '100%'
@@ -63,9 +67,45 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  summary: {
+  summaryContainer: {
     flexGrow: 1,
-    alignContent: 'center'
+    minWidth: 300,
+    maxWidth: 400
+  },
+  summarySection: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '90%',
+    backgroundColor: '#ebebed',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 10,
+    lineHeight: 0.6,
+    color: '#8c8d8f'
+  },
+  summaryDetailContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: 10
+  },
+  orderTotalContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: 15,
+    fontWeight: 'bold',
+    padding: 10,
+    paddingTop: 20,
+    paddingBottom: 25
+  },
+  checkoutBtnContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  checkoutBtn: {
+    borderRadius: 0,
+    marginTop: 15,
+    marginBottom: 30
   }
 }));
 
@@ -152,6 +192,16 @@ const CartItem = () => {
 
   if (loading) return <h4>...Loading</h4>;
 
+  if (cartItems.length === 0 && !loading)
+    return (
+      <Link to='/'>
+        {' '}
+        <div style={{ marginTop: 150 }}>
+          Go to home page for more shopping
+        </div>{' '}
+      </Link>
+    );
+
   return (
     <div className={classes.root}>
       <TableContainer className={classes.tableContainer}>
@@ -218,7 +268,52 @@ const CartItem = () => {
           </Table>
         )}
       </TableContainer>
-      <div className={classes.summary}>Total: ${ccyFormat(invoiceTotal)} </div>
+      {cartItems.length > 0 && (
+        <div className={classes.summaryContainer}>
+          <div className={classes.summarySection}>
+            <h3
+              style={{
+                alignSelf: 'center',
+                padding: 1.5
+              }}
+            >
+              Summary
+            </h3>
+            <Divider />
+            <br />
+            <div className={classes.summaryDetailContainer}>
+              <span>Subtotal</span>
+              <span>${ccyFormat(invoiceSubtotal)}</span>
+            </div>
+            <div className={classes.summaryDetailContainer}>
+              <span>Tax</span>
+              <span>$0.0</span>
+            </div>
+            <div className={classes.summaryDetailContainer}>
+              <span>Discount</span>
+              <span>$0.0</span>
+            </div>
+            <br />
+            <Divider />
+            <div className={classes.orderTotalContainer}>
+              <span>Order Total</span>
+              <span>${ccyFormat(invoiceTotal)}</span>
+            </div>
+            <div className={classes.checkoutBtnContainer}>
+              <Link to='/checkout'>
+                <Button
+                  className={classes.checkoutBtn}
+                  variant='contained'
+                  color='primary'
+                  disableElevation
+                >
+                  Proceed checkout
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
