@@ -139,7 +139,7 @@ const CartItem = () => {
   let cartRows = [];
 
   cartItems.map((cart) => {
-    cartRows.push(
+    return cartRows.push(
       createRow(
         cart.id,
         cart.product_id,
@@ -221,7 +221,11 @@ const CartItem = () => {
               <TableBody key={row.product_id}>
                 <TableRow>
                   <TableCell>
-                    <img className={classes.image} src={row.image} />
+                    <img
+                      className={classes.image}
+                      src={row.image}
+                      alt={row.desc}
+                    />
                   </TableCell>
                   <TableCell>{row.desc}</TableCell>
                   <TableCell align='center'>
