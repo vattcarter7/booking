@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { getAllProducts } from '../../redux/product/productAction';
-import { addCartItem } from '../../redux/cart/cartAction';
 import ProductItem from './ProductItem';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,8 +17,6 @@ const useStyles = makeStyles((theme) => ({
 const Product = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
-  const { cartItems } = useSelector((state) => state.cart);
   const { products, loading, order, limit, skip } = useSelector(
     (state) => state.product
   );
@@ -29,20 +26,6 @@ const Product = () => {
   useEffect(() => {
     dispatch(getAllProducts(productOrder, limit, skip));
   }, [dispatch]);
-
-  const handleAddCartItem = (id) => {
-    const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.product_id === id
-    );
-
-    dispatch(
-      addCartItem({
-        product_id: id,
-        user_id: user.id,
-        quantity: existingCartItem ? existingCartItem.quantity + 1 : 1
-      })
-    );
-  };
 
   if (loading) return null;
 
