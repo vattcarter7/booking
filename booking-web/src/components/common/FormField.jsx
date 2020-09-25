@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '11px 15px 11px 8px',
     color: 'grey',
     backgroundCcolor: 'transparent',
-    border: 'none'
+    border: 'none',
+    outline: 'none'
   }
 }));
 
