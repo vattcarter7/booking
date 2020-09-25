@@ -60,6 +60,16 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     marginBottom: 10
   },
+  payBtnContainerPending: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+    backgroundColor: '#6199f2',
+    height: 40,
+    cursor: 'pointer',
+    marginBottom: 10
+  },
   payBtn: {
     color: 'white',
     width: 400
@@ -142,7 +152,13 @@ const CheckoutForm = () => {
             <Typography className={classes.error}>{checkoutError}</Typography>
           )}
         </div>
-        <div className={classes.payBtnContainer}>
+        <div
+          className={
+            processing
+              ? classes.payBtnContainerPending
+              : classes.payBtnContainer
+          }
+        >
           <Button
             onClick={handleSubmit}
             disabled={processing || !stripe}
