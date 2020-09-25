@@ -13,7 +13,9 @@ import BillingDetailsField from '../billing-detail/BillingDetailsField';
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 50,
-    width: 400
+    minWidth: 450,
+    backgroundColor: '#edf4ff',
+    padding: 30
   },
   errorContainer: {
     minWidth: 300,
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   boxContainer: {
     minWidth: 350,
-    margin: '30px auto',
+    margin: '15px auto',
     borderRadius: 4,
     backgroundColor: '#ebe9e6',
     position: 'relative'
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
     backgroundColor: '#ebe9e6',
     position: 'relative',
+    marginTop: 15,
 
     '& .StripeElement': {
       minWidth: 400,
@@ -54,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
     alignContent: 'center',
     backgroundColor: '#165de0',
     height: 40,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginBottom: 10
   },
   payBtn: {
     color: 'white',
@@ -120,9 +124,12 @@ const CheckoutForm = () => {
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit} autoComplete='off'>
+        <h3>Personal Information</h3>
         <div className={classes.boxContainer}>
           <BillingDetailsField />
         </div>
+
+        <h3>Card Details</h3>
         <div className={classes.CardElementContainer}>
           <CardElement
             options={cardElementOption}

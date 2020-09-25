@@ -105,7 +105,9 @@ const useStyles = makeStyles((theme) => ({
   checkoutBtn: {
     borderRadius: 0,
     marginTop: 15,
-    marginBottom: 30
+    marginBottom: 30,
+    backgroundColor: '#165de0',
+    color: 'white'
   }
 }));
 
@@ -308,7 +310,6 @@ const CartItem = () => {
                 <Button
                   className={classes.checkoutBtn}
                   variant='contained'
-                  color='primary'
                   disableElevation
                 >
                   Proceed checkout
