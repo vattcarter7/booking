@@ -8,12 +8,12 @@ import { successBuyAction } from '../../redux/cart/cartAction';
 
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Typography } from '@material-ui/core';
+import BillingDetailsField from '../billing-detail/BillingDetailsField';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    alignItems: 'center',
     marginTop: 50,
-    width: 350
+    width: 400
   },
   payBtn: {
     marginTop: 30,
@@ -21,6 +21,26 @@ const useStyles = makeStyles((theme) => ({
   },
   error: {
     color: 'red'
+  },
+  boxContainer: {
+    minWidth: 350,
+    margin: '30px auto',
+    borderRadius: 4,
+    backgroundColor: '#ebe9e6',
+    position: 'relative'
+  },
+  CardElementContainer: {
+    height: 40,
+    display: 'flex',
+    alignItems: 'center',
+    borderRadius: 4,
+    backgroundColor: '#ebe9e6',
+    position: 'relative',
+
+    '& .StripeElement': {
+      minWidth: 400,
+      padding: 15
+    }
   }
 }));
 
@@ -59,7 +79,7 @@ const CheckoutForm = () => {
     style: {
       base: {
         fontSize: '16px',
-        color: '#424770',
+        color: '#757574',
         '::placeholder': {
           color: '#aab7c4'
         }
@@ -82,17 +102,24 @@ const CheckoutForm = () => {
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit}>
-        <CardElement
-          options={cardElementOption}
-          onChange={handleCardDetailsChange}
-        />
-        <button
-          className={classes.payBtn}
-          type='submit'
-          disabled={!stripe || processing}
-        >
-          {!processing ? 'Pay Now' : 'Proccessing...'}
-        </button>
+        <div className={classes.boxContainer}>
+          <BillingDetailsField />
+        </div>
+        <div className={classes.CardElementContainer}>
+          <CardElement
+            options={cardElementOption}
+            onChange={handleCardDetailsChange}
+          />
+        </div>
+        <div className={classes.boxContainer}>
+          <button
+            className={classes.payBtn}
+            type='submit'
+            disabled={!stripe || processing}
+          >
+            {!processing ? 'Pay Now' : 'Proccessing...'}
+          </button>
+        </div>
         {checkoutError && (
           <Typography className={classes.error}>{checkoutError}</Typography>
         )}
