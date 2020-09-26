@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 
 import { PURCHASE_URL } from '../../utils/misc';
 import { successBuyAction } from '../../redux/cart/cartAction';
 
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Typography, Button } from '@material-ui/core';
-import BillingDetailsField from '../billing-detail/BillingDetailsField';
+import TextInputField from '../common/TextInputField';
 import { ccyFormat } from '../../utils/misc';
 
 const useStyles = makeStyles((theme) => ({
@@ -147,43 +149,95 @@ const CheckoutForm = () => {
 
   return (
     <div className={classes.root}>
-      <form onSubmit={handleSubmit} autoComplete='off'>
-        <h3>Personal Information</h3>
-        <div className={classes.boxContainer}>
-          <BillingDetailsField />
-        </div>
-
-        <h3>Card Details</h3>
-        <div className={classes.CardElementContainer}>
-          <CardElement
-            options={cardElementOption}
-            onChange={handleCardDetailsChange}
-          />
-        </div>
-
-        <div className={classes.errorContainer}>
-          {checkoutError && (
-            <Typography className={classes.error}>{checkoutError}</Typography>
-          )}
-        </div>
-        <div
-          className={
-            processing || !cardComplete
-              ? classes.payBtnContainerPending
-              : classes.payBtnContainer
+      <Formik
+        initialValues={{ name: '', email: '' }}
+        // validationSchema={Yup.object({
+        //   name: Yup.string().required('Card name holder is required')
+        // })}
+        validate={(values) => {
+          const errors = {};
+          if (!values.email) {
+            errors.email = 'Required';
+          } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+          ) {
+            errors.email = 'Invalid email address';
           }
-        >
-          <Button
-            onClick={handleSubmit}
-            disabled={processing || !stripe || !cardComplete}
-            className={classes.payBtn}
-          >
-            {processing
-              ? 'Processing Payment...'
-              : `Pay $${ccyFormat(grandTotalPrice)}`}
-          </Button>
-        </div>
-      </form>
+          return errors;
+        }}
+        onSubmit={async (values, { setSubmitting, setErrors }) => {
+          try {
+            await handleSubmit();
+          } catch (error) {
+            setErrors({ info: error.message });
+          } finally {
+            setSubmitting(false);
+          }
+        }}
+      >
+        {({ values, errors, isSubmitting, isValid, dirty, touched }) => (
+          <Form autoComplete='off'>
+            <h3>Personal Information</h3>
+            <div className={classes.boxContainer}>
+              <TextInputField
+                name='name'
+                label='Name'
+                type='text'
+                value={values.name}
+              />
+              <TextInputField
+                name='email'
+                label='Email'
+                type='email'
+                onChange={values.email}
+                value={values.email}
+              />
+              {errors.email && touched.email && errors.email}
+              <TextInputField name='address' label='Address' type='text' />
+              <TextInputField name='city' label='City' type='text' />
+            </div>
+
+            <h3>Card Details</h3>
+            <div className={classes.CardElementContainer}>
+              <CardElement
+                options={cardElementOption}
+                onChange={handleCardDetailsChange}
+              />
+            </div>
+
+            <div className={classes.errorContainer}>
+              {checkoutError && (
+                <Typography className={classes.error}>
+                  {checkoutError}
+                </Typography>
+              )}
+            </div>
+            <div
+              className={
+                processing || !cardComplete
+                  ? classes.payBtnContainerPending
+                  : classes.payBtnContainer
+              }
+            >
+              <Button
+                onClick={handleSubmit}
+                disabled={
+                  processing ||
+                  !isValid ||
+                  isSubmitting ||
+                  !stripe ||
+                  !cardComplete
+                }
+                className={classes.payBtn}
+              >
+                {processing
+                  ? 'Processing Payment...'
+                  : `Pay $${ccyFormat(grandTotalPrice)}`}
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
