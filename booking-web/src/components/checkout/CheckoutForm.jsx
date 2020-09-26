@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { PURCHASE_URL } from '../../utils/misc';
@@ -9,6 +9,7 @@ import { successBuyAction } from '../../redux/cart/cartAction';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Typography, Button } from '@material-ui/core';
 import BillingDetailsField from '../billing-detail/BillingDetailsField';
+import { ccyFormat } from '../../utils/misc';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
 const CheckoutForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state.cart);
   const [processing, setProcessing] = useState(false);
   const [cardComplete, setCardComplete] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
@@ -133,6 +135,16 @@ const CheckoutForm = () => {
     event.error ? setCheckoutError(event.error.message) : setCheckoutError();
   };
 
+  let totalPriceArray = [];
+
+  cartItems.map((cartItem) =>
+    totalPriceArray.push(cartItem.price * cartItem.quantity)
+  );
+
+  const grandTotalPrice = totalPriceArray.reduce((a, b) => {
+    return a + b;
+  }, 0);
+
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit} autoComplete='off'>
@@ -166,7 +178,9 @@ const CheckoutForm = () => {
             disabled={processing || !stripe || !cardComplete}
             className={classes.payBtn}
           >
-            {processing ? 'Processing Payment...' : 'Pay Now'}
+            {processing
+              ? 'Processing Payment...'
+              : `Pay $${ccyFormat(grandTotalPrice)}`}
           </Button>
         </div>
       </form>

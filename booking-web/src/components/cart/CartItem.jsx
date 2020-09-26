@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
 import { Button } from '@material-ui/core';
 
-import { DRAW_WIDTH } from '../../utils/misc';
+import { DRAW_WIDTH, ccyFormat } from '../../utils/misc';
 
 import {
   getCartItems,
@@ -111,10 +111,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ccyFormat(num) {
-  return `${num.toFixed(2)}`;
-}
-
 function priceRow(qty, unit) {
   return qty * unit;
 }
@@ -124,9 +120,9 @@ function createRow(id, product_id, desc, image, qty, unit) {
   return { id, product_id, desc, image, qty, unit, price };
 }
 
-function subtotal(items) {
+const subtotal = (items) => {
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
-}
+};
 
 const CartItem = () => {
   const classes = useStyles();

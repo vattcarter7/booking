@@ -7,3 +7,12 @@ export const PURCHASE_URL = '/api/v1/purchase';
 
 // CONSTANTS
 export const DRAW_WIDTH = 180;
+
+// Functions
+export const ccyFormat = (num) => {
+  return `${num.toFixed(2)}`;
+};
+
+export const subtotal = (items) => {
+  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+};
