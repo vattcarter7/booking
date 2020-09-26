@@ -80,6 +80,7 @@ const CheckoutForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [processing, setProcessing] = useState(false);
+  const [cardComplete, setCardComplete] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
 
   const stripe = useStripe();
@@ -128,6 +129,7 @@ const CheckoutForm = () => {
   };
 
   const handleCardDetailsChange = (event) => {
+    setCardComplete(event.complete);
     event.error ? setCheckoutError(event.error.message) : setCheckoutError();
   };
 
@@ -154,14 +156,14 @@ const CheckoutForm = () => {
         </div>
         <div
           className={
-            processing
+            processing || !cardComplete
               ? classes.payBtnContainerPending
               : classes.payBtnContainer
           }
         >
           <Button
             onClick={handleSubmit}
-            disabled={processing || !stripe}
+            disabled={processing || !stripe || !cardComplete}
             className={classes.payBtn}
           >
             {processing ? 'Processing Payment...' : 'Pay Now'}
