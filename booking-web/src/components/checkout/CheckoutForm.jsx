@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   boxContainer: {
     minWidth: 350,
     margin: '15px auto',
-    borderRadius: 4,
+    borderRadius: 0,
     backgroundColor: '#ebe9e6',
     position: 'relative'
   },
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     height: 40,
     display: 'flex',
     alignItems: 'center',
-    borderRadius: 4,
+    borderRadius: 0,
     backgroundColor: '#ebe9e6',
     position: 'relative',
     marginTop: 15,
