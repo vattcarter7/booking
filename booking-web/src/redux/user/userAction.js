@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { AUTH_URL } from '../../utils/misc';
 import { USER_LOADED, AUTH_FAIL, LOGOUT_USER } from './userTypes';
+import { clearCartItems } from '../cart/cartAction';
 
 export const register = ({ firstname, lastname, email, password }) => async (
   dispatch
@@ -67,6 +68,7 @@ export const getAuth = () => async (dispatch) => {
 
 export const logOut = () => async (dispatch) => {
   try {
+    dispatch(clearCartItems());
     await axios.get(`${AUTH_URL}/logout`);
     dispatch({ type: LOGOUT_USER });
   } catch (error) {

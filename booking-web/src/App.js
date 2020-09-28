@@ -26,10 +26,10 @@ function App() {
   useEffect(() => {
     dispatch(getAuth());
     dispatch(getAllCategories());
-    dispatch(getCartItems());
+    // dispatch(getCartItems());
   }, [dispatch]);
 
-  if (categoriesLoading || authLoading || cartLoading) {
+  if (categoriesLoading || authLoading) {
     return <Loading />;
   } else {
     dispatch({ type: APP_LOADED });

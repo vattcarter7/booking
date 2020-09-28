@@ -130,7 +130,7 @@ const CartItem = () => {
   const { cartItems, loading } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   useEffect(() => {
-    dispatch(clearCartItems());
+    // dispatch(clearCartItems());
     dispatch(getCartItems());
   }, [dispatch]);
 

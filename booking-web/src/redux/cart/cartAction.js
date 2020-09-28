@@ -95,8 +95,17 @@ export const removeCartItem = (id) => async (dispatch) => {
 };
 
 // clear cart items
-export const clearCartItems = () => (dispatch) => {
-  dispatch({ type: CLEAR_CART_ITEMS });
+//TODO: clear all cart items from the server
+export const clearCartItems = () => async (dispatch) => {
+  try {
+    await axios.delete(`${CART_URL}`);
+    dispatch({ type: CLEAR_CART_ITEMS });
+  } catch (error) {
+    dispatch({
+      type: 'CART_ERROR',
+      payload: { error: 'Unable to remove all cart items' }
+    });
+  }
 };
 
 // success buy

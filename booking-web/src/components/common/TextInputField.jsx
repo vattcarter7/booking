@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const FormField = ({ label, type, name, placeholder }) => {
+const TextInputField = ({ label, type, name, placeholder }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -50,4 +50,4 @@ const FormField = ({ label, type, name, placeholder }) => {
   );
 };
 
-export default FormField;
+export default TextInputField;
