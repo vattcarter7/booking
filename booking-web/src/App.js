@@ -20,14 +20,18 @@ import { APP_LOADED } from './redux/app/appReducer';
 function App() {
   const dispatch = useDispatch();
   const { loading: categoriesLoading } = useSelector((state) => state.category);
-  const { loading: authLoading } = useSelector((state) => state.user);
+  const { loading: authLoading, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
   const { loading: cartLoading } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(getAuth());
     dispatch(getAllCategories());
-    // dispatch(getCartItems());
-  }, [dispatch]);
+    if (isAuthenticated) {
+      dispatch(getCartItems());
+    }
+  }, [dispatch, isAuthenticated]);
 
   if (categoriesLoading || authLoading) {
     return <Loading />;

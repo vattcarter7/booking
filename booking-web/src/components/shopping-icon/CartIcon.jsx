@@ -31,10 +31,16 @@ const useStyles = makeStyles((theme) => ({
 
 const CartIcon = () => {
   const classes = useStyles();
-  const { cartItems, loading } = useSelector((state) => state.cart);
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { cartItems, loading: cartItemsLoading } = useSelector(
+    (state) => state.cart
+  );
+  const { isAuthenticated, loading: authLoading } = useSelector(
+    (state) => state.user
+  );
 
-  if (cartItems.length === 0 || loading || !isAuthenticated) return null;
+  if (cartItems.length === 0 || cartItemsLoading) return null;
+
+  if (!isAuthenticated && !authLoading) return null;
 
   return (
     <Link to='/cart'>
