@@ -115,7 +115,7 @@ const Login = () => {
     <div className={classes.root}>
       <div className={classes.formContainer}>
         <h1 style={{ color: 'grey' }}>Sign In</h1>
-        <h3 style={{ color: 'grey' }}> Sign Into Your Account</h3>
+        <h3 style={{ color: 'grey' }}> Sign In To Your Account</h3>
 
         <Formik
           initialValues={{ email: '', password: '' }}
@@ -138,7 +138,7 @@ const Login = () => {
             <form onSubmit={handleSubmit} autoComplete='off'>
               <div className={classes.formFieldContainer}>
                 <div className={classes.formField}>
-                  <label className={classes.label} for='email'>
+                  <label className={classes.label} htmlFor='email'>
                     Email
                   </label>
                   <input
@@ -155,7 +155,7 @@ const Login = () => {
                 </div>
 
                 <div className={classes.formField}>
-                  <label className={classes.label} for='password'>
+                  <label className={classes.label} htmlFor='password'>
                     Password
                   </label>
                   <input
@@ -186,7 +186,7 @@ const Login = () => {
           )}
         </Formik>
         <h4 style={{ color: 'grey' }}>
-          Don't have an account? <Link to='/register'>Register</Link>
+          Don't have an account? <Link to='/register'>REGISTER</Link>
         </h4>
       </div>
     </div>
