@@ -60,7 +60,7 @@ const Login = () => {
 
   return (
     <div className={classes.root}>
-      <h1 className='large text-primary'>Log In</h1>
+      <h1 className='large text-primary'>Sign In</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Sign Into Your Account
       </p>
@@ -68,8 +68,10 @@ const Login = () => {
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={Yup.object({
-          email: Yup.string().required().email(),
-          password: Yup.string().required()
+          email: Yup.string()
+            .required('Email is required')
+            .email('Please provide a valid email'),
+          password: Yup.string().required('Password is required')
         })}
         onSubmit={(values, { setSubmitting }) => {
           dispatch(login(values));
