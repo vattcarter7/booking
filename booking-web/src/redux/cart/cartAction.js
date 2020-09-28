@@ -7,7 +7,8 @@ import {
   DECREMENT_CART_ITEM_QUANTITY,
   REMOVE_CART_ITEM,
   CLEAR_CART_ITEMS,
-  SUCCESS_BUY
+  SUCCESS_BUY,
+  CLEAR_CART_ITEMS_LOCAL
 } from './cartTypes';
 
 // get all cart items of the user
@@ -106,6 +107,11 @@ export const clearCartItems = () => async (dispatch) => {
       payload: { error: 'Unable to remove all cart items' }
     });
   }
+};
+
+// clear cart items locally
+export const clearCartItemsLocal = () => (dispatch) => {
+  dispatch({ type: CLEAR_CART_ITEMS_LOCAL });
 };
 
 // success buy

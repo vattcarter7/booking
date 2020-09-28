@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
 import { Button } from '@material-ui/core';
+import Loading from '../loading/Loading';
 
 import { DRAW_WIDTH, ccyFormat } from '../../utils/misc';
 
@@ -18,7 +19,8 @@ import {
   getCartItems,
   addCartItem,
   decrementCartItemQuantity,
-  removeCartItem
+  removeCartItem,
+  clearCartItemsLocal
 } from '../../redux/cart/cartAction';
 import { Divider } from '@material-ui/core';
 
@@ -129,6 +131,7 @@ const CartItem = () => {
   const { cartItems, loading } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   useEffect(() => {
+    dispatch(clearCartItemsLocal());
     dispatch(getCartItems());
   }, [dispatch]);
 
@@ -186,13 +189,13 @@ const CartItem = () => {
     dispatch(removeCartItem(id));
   };
 
-  if (loading) return <h4>...Loading</h4>;
+  if (loading) return <Loading className={classes.root} />;
 
   if (cartItems.length === 0 && !loading)
     return (
       <Link to='/'>
         {' '}
-        <div style={{ marginTop: 150 }}>
+        <div className={classes.root}>
           Go to home page for more shopping
         </div>{' '}
       </Link>
