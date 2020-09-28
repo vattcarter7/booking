@@ -23,7 +23,6 @@ function App() {
   const { loading: authLoading, isAuthenticated } = useSelector(
     (state) => state.user
   );
-  const { loading: cartLoading } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(getAuth());
