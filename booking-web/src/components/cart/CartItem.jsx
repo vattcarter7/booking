@@ -18,8 +18,7 @@ import {
   getCartItems,
   addCartItem,
   decrementCartItemQuantity,
-  removeCartItem,
-  clearCartItems
+  removeCartItem
 } from '../../redux/cart/cartAction';
 import { Divider } from '@material-ui/core';
 

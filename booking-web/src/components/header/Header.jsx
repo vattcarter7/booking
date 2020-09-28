@@ -67,14 +67,14 @@ const Header = () => {
           {isAuthenticated ? (
             <span style={{ color: 'blue', marginRight: '20px' }}>
               <Button onClick={handleLogout} color='primary'>
-                Log Out
+                Sign Out
               </Button>
             </span>
           ) : (
             <span>
               <Button color='primary'>
                 {' '}
-                <Link to='/login'>Log In</Link>{' '}
+                <Link to='/login'>Sign In</Link>{' '}
               </Button>
               <Button color='primary'>
                 {' '}
