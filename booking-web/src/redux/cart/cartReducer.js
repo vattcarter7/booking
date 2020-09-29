@@ -5,7 +5,7 @@ import {
   REMOVE_CART_ITEM,
   CLEAR_CART_ITEMS,
   CLEAR_CART_ITEMS_LOCAL,
-  SUCCESS_BUY
+  PURCHASE
 } from './cartTypes';
 import { addItemToCart, removeItemFromCart } from './cartUtils';
 
@@ -54,10 +54,9 @@ const cartReducer = (state = INITIAL_STATE, action) => {
     case CLEAR_CART_ITEMS_LOCAL:
       return {
         ...state,
-        cartItems: [],
-        loading: true
+        cartItems: []
       };
-    case SUCCESS_BUY:
+    case PURCHASE:
       return {
         ...state,
         cartItems: [],

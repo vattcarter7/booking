@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CART_URL } from '../../utils/misc';
+import { CART_URL, PURCHASE_URL } from '../../utils/misc';
 
 import {
   ADD_CART_ITEM,
@@ -7,8 +7,8 @@ import {
   DECREMENT_CART_ITEM_QUANTITY,
   REMOVE_CART_ITEM,
   CLEAR_CART_ITEMS,
-  SUCCESS_BUY,
-  CLEAR_CART_ITEMS_LOCAL
+  CLEAR_CART_ITEMS_LOCAL,
+  PURCHASE
 } from './cartTypes';
 
 // get all cart items of the user
@@ -114,7 +114,14 @@ export const clearCartItemsLocal = () => (dispatch) => {
   dispatch({ type: CLEAR_CART_ITEMS_LOCAL });
 };
 
-// success buy
-export const successBuyAction = () => (dispatch) => {
-  dispatch({ type: SUCCESS_BUY });
+export const purchase = (id) => async (dispatch) => {
+  try {
+    const res = await axios.post(`${PURCHASE_URL}`, { id });
+    dispatch({
+      type: PURCHASE,
+      payload: res.data
+    });
+  } catch (error) {
+    dispatch({ type: 'ERROR PURCHASE' });
+  }
 };

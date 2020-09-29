@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { PURCHASE_URL } from '../../utils/misc';
-import { successBuyAction } from '../../redux/cart/cartAction';
-
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Typography, Button, Divider } from '@material-ui/core';
 import { ccyFormat } from '../../utils/misc';
 import { DRAW_WIDTH } from '../../utils/misc';
+import { Redirect } from 'react-router-dom';
+
+import { purchase } from '../../redux/cart/cartAction';
 
 const validationSchema = Yup.object({
   nameOnCard: Yup.string().required('Name on card is required'),
@@ -136,32 +135,11 @@ const CheckoutForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { cartItems, successBuy } = useSelector((state) => state.cart);
-  const [processing, setProcessing] = useState(false);
   const [cardComplete, setCardComplete] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
 
   const stripe = useStripe();
   const elements = useElements();
-
-  const handleSubmit = async () => {
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: elements.getElement(CardElement)
-    });
-
-    if (!error) {
-      const { id } = paymentMethod;
-      try {
-        setProcessing(true);
-        await axios.post(`${PURCHASE_URL}`, { id });
-        dispatch(successBuyAction());
-      } catch (error) {
-        setCheckoutError(error.response.data.message);
-      } finally {
-        setProcessing(false);
-      }
-    }
-  };
 
   const cardElementOption = {
     style: {
@@ -199,15 +177,29 @@ const CheckoutForm = () => {
     return a + b;
   }, 0);
 
+  // if (successBuy) {
+  //   return <Redirect to='/dashboard' />;
+  // }
+
   return (
     <div className={classes.root}>
       <div className={classes.formContainer}>
         <Formik
           initialValues={{ nameOnCard: '', contactEmail: '', address: '' }}
           validationSchema={validationSchema}
-          onSubmit={async (values, { setSubmitting, setErrors }) => {
+          onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
             try {
-              await handleSubmit();
+              const { error, paymentMethod } = await stripe.createPaymentMethod(
+                {
+                  type: 'card',
+                  card: elements.getElement(CardElement)
+                }
+              );
+
+              if (!error) {
+                const { id } = paymentMethod;
+                dispatch(purchase(id));
+              }
             } catch (error) {
               setErrors({ info: error.message });
             } finally {
@@ -227,7 +219,6 @@ const CheckoutForm = () => {
           }) => (
             <form autoComplete='off'>
               <h3>Billing Information</h3>
-
               <div>
                 <label className={classes.label} htmlFor='contactEmail'>
                   Contact Email
@@ -307,7 +298,7 @@ const CheckoutForm = () => {
 
               <div
                 className={
-                  processing || !cardComplete || !isValid
+                  !cardComplete || !isValid || isSubmitting
                     ? classes.payBtnContainerPending
                     : classes.payBtnContainer
                 }
@@ -315,10 +306,12 @@ const CheckoutForm = () => {
                 <Button
                   onClick={handleSubmit}
                   type='submit'
-                  disabled={processing || !stripe || !cardComplete || !isValid}
+                  disabled={
+                    !stripe || !cardComplete || !isValid || isSubmitting
+                  }
                   className={classes.payBtn}
                 >
-                  {processing
+                  {isSubmitting || successBuy
                     ? 'Processing Payment...'
                     : `Pay $${ccyFormat(grandTotalPrice)}`}
                 </Button>
