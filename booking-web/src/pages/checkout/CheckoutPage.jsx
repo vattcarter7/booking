@@ -37,10 +37,7 @@ const CheckoutPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { successBuy, cartItems, loading } = useSelector((state) => state.cart);
-
-  useEffect(() => {
-    dispatch(getCartItems());
-  }, [dispatch]);
+  const [status, setStatus] = React.useState('ready');
 
   if (loading) return <h5>loading...</h5>;
 

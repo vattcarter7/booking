@@ -2,23 +2,38 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Formik, Form } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { PURCHASE_URL } from '../../utils/misc';
 import { successBuyAction } from '../../redux/cart/cartAction';
 
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Typography, Button } from '@material-ui/core';
-import TextInputField from '../common/TextInputField';
+import { Typography, Button, Divider } from '@material-ui/core';
 import { ccyFormat } from '../../utils/misc';
+import { DRAW_WIDTH } from '../../utils/misc';
+
+const validationSchema = Yup.object({
+  nameOnCard: Yup.string().required('Name on card is required'),
+  contactEmail: Yup.string()
+    .required('Contact email is required')
+    .email('Please provide a valid email'),
+  address: Yup.string().required('Shipping address is required')
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 50,
-    minWidth: 450,
-    backgroundColor: '#edf4ff',
-    padding: 30
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '30px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: DRAW_WIDTH,
+      flexShrink: 0
+    }
   },
   errorContainer: {
     minWidth: 300,
@@ -26,11 +41,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignContent: 'center'
-  },
-  error: {
-    color: 'red',
-    display: 'block',
-    height: 30
   },
   boxContainer: {
     minWidth: 350,
@@ -44,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     borderRadius: 0,
-    backgroundColor: '#ebe9e6',
+    backgroundColor: '#F5F6F7',
     position: 'relative',
     marginTop: 15,
 
@@ -76,13 +86,56 @@ const useStyles = makeStyles((theme) => ({
   payBtn: {
     color: 'white',
     width: 400
+  },
+
+  formContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: 430,
+    height: 'auto',
+    backgroundColor: '#eff1f9',
+    padding: 15,
+    marginTop: 20,
+    fontWeight: 300,
+    paddingLeft: 57,
+    paddingRight: 57
+  },
+  input: {
+    width: '100%',
+    height: 35,
+    border: '1px solid #d6d7db',
+    paddingLeft: 10,
+    marginBottom: 20,
+    background: '#f5f6f7',
+    outline: 'none',
+    textAlign: 'center'
+  },
+  label: {
+    fontWeight: 400,
+    fontSize: 15,
+    color: 'grey',
+    marginRight: 'auto',
+    marginLeft: 'auto'
+  },
+  error: {
+    alignItems: 'center',
+    alignContent: 'center',
+    color: 'red',
+    fontSize: 12,
+    height: 5,
+    marginTop: -17
+  },
+  payErrorMsg: {
+    color: 'red'
   }
 }));
 
 const CheckoutForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
+  const { cartItems, successBuy } = useSelector((state) => state.cart);
   const [processing, setProcessing] = useState(false);
   const [cardComplete, setCardComplete] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
@@ -90,9 +143,7 @@ const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async () => {
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement)
@@ -103,10 +154,10 @@ const CheckoutForm = () => {
       try {
         setProcessing(true);
         await axios.post(`${PURCHASE_URL}`, { id });
-        setProcessing(false);
         dispatch(successBuyAction());
       } catch (error) {
         setCheckoutError(error.response.data.message);
+      } finally {
         setProcessing(false);
       }
     }
@@ -133,6 +184,7 @@ const CheckoutForm = () => {
   };
 
   const handleCardDetailsChange = (event) => {
+    console.log(event);
     setCardComplete(event.complete);
     event.error ? setCheckoutError(event.error.message) : setCheckoutError();
   };
@@ -149,95 +201,132 @@ const CheckoutForm = () => {
 
   return (
     <div className={classes.root}>
-      <Formik
-        initialValues={{ name: '', email: '' }}
-        // validationSchema={Yup.object({
-        //   name: Yup.string().required('Card name holder is required')
-        // })}
-        validate={(values) => {
-          const errors = {};
-          if (!values.email) {
-            errors.email = 'Required';
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-          ) {
-            errors.email = 'Invalid email address';
-          }
-          return errors;
-        }}
-        onSubmit={async (values, { setSubmitting, setErrors }) => {
-          try {
-            await handleSubmit();
-          } catch (error) {
-            setErrors({ info: error.message });
-          } finally {
-            setSubmitting(false);
-          }
-        }}
-      >
-        {({ values, errors, isSubmitting, isValid, dirty, touched }) => (
-          <Form autoComplete='off'>
-            <h3>Personal Information</h3>
-            <div className={classes.boxContainer}>
-              <TextInputField
-                name='name'
-                label='Name'
-                type='text'
-                value={values.name}
-              />
-              <TextInputField
-                name='email'
-                label='Email'
-                type='email'
-                onChange={values.email}
-                value={values.email}
-              />
-              {errors.email && touched.email && errors.email}
-              <TextInputField name='address' label='Address' type='text' />
-              <TextInputField name='city' label='City' type='text' />
-            </div>
+      <div className={classes.formContainer}>
+        <Formik
+          initialValues={{ nameOnCard: '', contactEmail: '', address: '' }}
+          validationSchema={validationSchema}
+          onSubmit={async (values, { setSubmitting, setErrors }) => {
+            try {
+              await handleSubmit();
+            } catch (error) {
+              setErrors({ info: error.message });
+            } finally {
+              setSubmitting(false);
+            }
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            isValid
+          }) => (
+            <form autoComplete='off'>
+              <h3>Billing Information</h3>
 
-            <h3>Card Details</h3>
-            <div className={classes.CardElementContainer}>
-              <CardElement
-                options={cardElementOption}
-                onChange={handleCardDetailsChange}
-              />
-            </div>
+              <div>
+                <label className={classes.label} htmlFor='contactEmail'>
+                  Contact Email
+                </label>
+                <input
+                  className={classes.input}
+                  type='email'
+                  name='contactEmail'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.contactEmail}
+                />
+                <div className={classes.error}>
+                  {errors.contactEmail &&
+                    touched.contactEmail &&
+                    errors.contactEmail}
+                </div>
+              </div>
 
-            <div className={classes.errorContainer}>
+              <br />
+
+              <div>
+                <label className={classes.label} htmlFor='address'>
+                  Shipping Address
+                </label>
+                <input
+                  className={classes.input}
+                  type='text'
+                  name='address'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.address}
+                />
+                <div className={classes.error}>
+                  {errors.address && touched.address && errors.address}
+                </div>
+              </div>
+
+              <br />
+              <br />
+              <Divider />
+              <br />
+
+              <h3>Payment Information</h3>
+              <div>
+                <label className={classes.label} htmlFor='nameOnCard'>
+                  Name On Card
+                </label>
+                <input
+                  className={classes.input}
+                  type='text'
+                  name='nameOnCard'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.nameOnCard}
+                />
+                <div className={classes.error}>
+                  {errors.nameOnCard && touched.nameOnCard && errors.nameOnCard}
+                </div>
+              </div>
+              <br />
+              <label className={classes.label} htmlFor='nameOnCard'>
+                Card Details
+              </label>
+              <div className={classes.CardElementContainer}>
+                <CardElement
+                  options={cardElementOption}
+                  onChange={handleCardDetailsChange}
+                />
+              </div>
+
               {checkoutError && (
-                <Typography className={classes.error}>
+                <Typography className={classes.payErrorMsg}>
                   {checkoutError}
                 </Typography>
               )}
-            </div>
-            <div
-              className={
-                processing || !cardComplete
-                  ? classes.payBtnContainerPending
-                  : classes.payBtnContainer
-              }
-            >
-              <Button
-                onClick={handleSubmit}
-                disabled={
-                  processing ||
-                  !isValid ||
-                  isSubmitting ||
-                  !stripe ||
-                  !cardComplete
+
+              <div
+                className={
+                  processing || !cardComplete || !isValid
+                    ? classes.payBtnContainerPending
+                    : classes.payBtnContainer
                 }
-                className={classes.payBtn}
               >
-                {processing
-                  ? 'Processing Payment...'
-                  : `Pay $${ccyFormat(grandTotalPrice)}`}
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+                <Button
+                  onClick={handleSubmit}
+                  type='submit'
+                  disabled={processing || !stripe || !cardComplete || !isValid}
+                  className={classes.payBtn}
+                >
+                  {processing
+                    ? 'Processing Payment...'
+                    : `Pay $${ccyFormat(grandTotalPrice)}`}
+                </Button>
+              </div>
+            </form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };
