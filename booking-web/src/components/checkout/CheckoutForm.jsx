@@ -8,7 +8,6 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Typography, Button, Divider } from '@material-ui/core';
 import { ccyFormat } from '../../utils/misc';
 import { DRAW_WIDTH } from '../../utils/misc';
-import { Redirect } from 'react-router-dom';
 
 import { purchase } from '../../redux/cart/cartAction';
 

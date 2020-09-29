@@ -25,6 +25,7 @@ const Product = () => {
 
   useEffect(() => {
     dispatch(getAllProducts(productOrder, limit, skip));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   if (loading) return null;
