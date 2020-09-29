@@ -10,8 +10,6 @@ import { DRAW_WIDTH } from '../../utils/misc';
 
 import CheckoutForm from '../../components/checkout/CheckoutForm';
 
-import { getCartItems } from '../../redux/cart/cartAction';
-
 const stripePromise = loadStripe(
   'pk_test_51HNuCnHhTL6aJuZWqPtBInpLw5JBKlIqtPbHfX4WAzoKGxxgKNghZ2Aa8zCmPpdI3PacnBVN2ixs7rRzjy4gVvDX00xzBOhkHT'
 );
