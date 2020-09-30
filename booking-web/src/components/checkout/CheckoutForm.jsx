@@ -176,10 +176,6 @@ const CheckoutForm = () => {
     return a + b;
   }, 0);
 
-  // if (successBuy) {
-  //   return <Redirect to='/dashboard' />;
-  // }
-
   return (
     <div className={classes.root}>
       <div className={classes.formContainer}>
