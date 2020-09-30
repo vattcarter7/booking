@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
@@ -9,6 +9,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { DRAW_WIDTH } from '../../utils/misc';
 
 import CheckoutForm from '../../components/checkout/CheckoutForm';
+import {
+  clearCartItemsLocal,
+  setSuccessBuyToFalse
+} from '../../redux/cart/cartAction';
 
 const stripePromise = loadStripe(
   'pk_test_51HNuCnHhTL6aJuZWqPtBInpLw5JBKlIqtPbHfX4WAzoKGxxgKNghZ2Aa8zCmPpdI3PacnBVN2ixs7rRzjy4gVvDX00xzBOhkHT'
@@ -33,7 +37,12 @@ const useStyles = makeStyles((theme) => ({
 
 const CheckoutPage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { successBuy, cartItems, loading } = useSelector((state) => state.cart);
+
+  useEffect(() => {
+    return () => dispatch(setSuccessBuyToFalse());
+  }, [dispatch]);
 
   if (loading) return <h5>loading...</h5>;
 

@@ -5,7 +5,8 @@ import {
   REMOVE_CART_ITEM,
   CLEAR_CART_ITEMS,
   CLEAR_CART_ITEMS_LOCAL,
-  PURCHASE
+  PURCHASE,
+  SET_SUCCESS_BUY_TO_FALSE
 } from './cartTypes';
 import { addItemToCart, removeItemFromCart } from './cartUtils';
 
@@ -62,6 +63,11 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         cartItems: [],
         successBuy: true,
         loading: false
+      };
+    case SET_SUCCESS_BUY_TO_FALSE:
+      return {
+        ...state,
+        successBuy: false
       };
     default:
       return state;

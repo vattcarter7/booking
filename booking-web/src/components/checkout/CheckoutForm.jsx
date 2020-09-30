@@ -182,7 +182,7 @@ const CheckoutForm = () => {
         <Formik
           initialValues={{ nameOnCard: '', contactEmail: '', address: '' }}
           validationSchema={validationSchema}
-          onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+          onSubmit={async (values, { setSubmitting, setErrors }) => {
             try {
               const { error, paymentMethod } = await stripe.createPaymentMethod(
                 {

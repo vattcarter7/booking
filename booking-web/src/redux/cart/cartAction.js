@@ -8,7 +8,8 @@ import {
   REMOVE_CART_ITEM,
   CLEAR_CART_ITEMS,
   CLEAR_CART_ITEMS_LOCAL,
-  PURCHASE
+  PURCHASE,
+  SET_SUCCESS_BUY_TO_FALSE
 } from './cartTypes';
 
 // get all cart items of the user
@@ -124,4 +125,8 @@ export const purchase = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: 'ERROR PURCHASE' });
   }
+};
+
+export const setSuccessBuyToFalse = () => (dispatch) => {
+  dispatch({ type: SET_SUCCESS_BUY_TO_FALSE });
 };
