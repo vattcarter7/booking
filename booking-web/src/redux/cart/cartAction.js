@@ -116,8 +116,15 @@ export const clearCartItemsLocal = () => (dispatch) => {
 };
 
 export const purchase = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  // const body = JSON.stringify({ id, nameOnCard, contactEmail, address });
   try {
-    const res = await axios.post(`${PURCHASE_URL}`, { id });
+    const res = await axios.post(`${PURCHASE_URL}`, { id }, config);
     dispatch({
       type: PURCHASE,
       payload: res.data

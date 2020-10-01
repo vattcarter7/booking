@@ -193,6 +193,7 @@ const CheckoutForm = () => {
 
               if (!error) {
                 const { id } = paymentMethod;
+                const { nameOnCard, contactEmail, address } = values;
                 dispatch(purchase(id));
               }
             } catch (error) {
